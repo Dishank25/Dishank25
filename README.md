@@ -1,9 +1,9 @@
-**[Enter the interactive observatory →](https://dishank25.github.io/Dishank25/)**
+**[Enter the interactive observatory →](https://dishank25.github.io/Dishank25/)** · [Explore the Django project](https://github.com/Dishank25/abyssal-portfolio)
 
 <p>
   <a href="https://dishank25.github.io/Dishank25/"><picture>
-    <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/observatory-mobile.svg" />
-    <img align="top" width="1080" src="assets/observatory.svg" alt="Dishank Jain, AI Engineer. I build AI tools for search, document extraction, and recommendations. An anime oceanographer watches a luminous manta glide past a deep-sea observatory. Open the interactive portfolio.">
+    <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/3624c9f1c04e424d826e0b203505b9945679cdeb/assets/keeper-observatory-mobile.svg" />
+    <img align="top" width="1080" src="assets/keeper-observatory.svg" alt="Dishank Jain, AI Engineer. I build AI tools for search, document extraction, and recommendations. A shadowed, bearded anime engineer watches a luminous manta glide past a deep-sea observatory. Open the interactive portfolio.">
   </picture></a><br>
   <a href="https://github.com/Dishank25/ZiglyPawSupport"><picture>
     <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/pawsupport-mobile.svg" />
@@ -31,6 +31,8 @@ I’m Dishank Jain, an AI engineer. I build Python applications for semantic sea
 [SupportPilot](https://github.com/Dishank25/supportpilot) is a FastAPI service backed by ChromaDB. Its [chat endpoint](https://github.com/Dishank25/supportpilot/blob/main/main.py) retrieves three candidates and returns a fallback when the best match falls below its confidence threshold.
 
 I use Python, FastAPI, Pydantic, ChromaDB, pandas, and scikit-learn. My other AI work includes extracting veterinary records from PDFs, recommending products from purchase histories, and prototyping pet breed identification.
+
+I built the [Abyssal Observatory portfolio](https://github.com/Dishank25/abyssal-portfolio) with Python and Django. The [live site](https://dishank25.github.io/Dishank25/) shares its illustrated character with this profile.
 
 Other public projects include a [Flutter job search app](https://github.com/Dishank25/rishabh6363-jobflutter-448f346c9d38), a [student and recruiter job portal](https://github.com/Dishank25/Job-Portal), and a [terminal tic-tac-toe game](https://github.com/Dishank25/python_project).
 

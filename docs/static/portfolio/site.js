@@ -7,6 +7,15 @@
   const room = document.querySelector('.room');
   const particles = document.querySelector('.particles');
   const motionButton = document.querySelector('[data-motion]');
+  const character = hero.querySelector('[data-character-motion]');
+  const stillSource = character.getAttribute('src');
+  let motionSource = character.dataset.characterMotion;
+  character.addEventListener('error', () => {
+    if (character.getAttribute('src') === motionSource) {
+      motionSource = stillSource;
+      character.setAttribute('src', stillSource);
+    }
+  }, {once: true});
   const motionLabel = motionButton.querySelector('[data-motion-label]');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const pointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -53,6 +62,7 @@
     }
   }
   function applyMotion() {
+    character.setAttribute('src', paused ? stillSource : motionSource);
     root.classList.toggle('motion-off', paused);
     root.classList.toggle('motion-allowed', !paused && saved === 'play');
     motionButton.setAttribute('aria-pressed', String(paused));
@@ -110,17 +120,4 @@
     for (const link of links) observe.observe(document.getElementById(link.hash.slice(1)));
   }
 
-  const demo = document.querySelector('[data-gate]');
-  const distance = document.getElementById('gate-distance');
-  const value = document.getElementById('gate-number');
-  const result = document.getElementById('gate-result');
-  function updateGate() {
-    const score = clamp(1 - distance.valueAsNumber / 2, 0, 1);
-    value.value = distance.valueAsNumber.toFixed(2);
-    const percentage = Math.round(score * 1000) / 10;
-    result.value = percentage + '% confidence · ' + (score >= .7 ? 'Use the FAQ' : 'Return the fallback');
-  }
-  distance.addEventListener('input', updateGate);
-  updateGate();
-  demo.hidden = false;
 })();

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07151b">
+  <title>SupportPilot — Dishank Jain</title>
+  <meta name="description" content="A support API with an explicit decision about when it has enough evidence to answer.">
+  <link rel="icon" type="image/svg+xml" href="../../static/portfolio/assets/manta-mark.svg">
+  <link rel="stylesheet" href="../../static/portfolio/site.css">
+  <script defer src="../../static/portfolio/confidence.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header scrolled">
+    <div class="header-inner">
+      <a class="brand" href="../../#top" aria-label="Dishank Jain, beginning">
+        <svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+<span>Dishank Jain</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="../../#work">Work</a>
+        <a href="../../#about">About</a>
+        <a href="../../#experience">Experience</a>
+        <a href="../../#skills">Skills</a>
+        <a href="../../#contact">Contact</a>
+      </nav>
+      <a class="header-github" href="https://github.com/Dishank25">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  
+<main id="main" class="study-page">
+  <section class="shell" id="top" aria-labelledby="study-title">
+    <a class="study-back" href="../../#supportpilot">← Selected work</a>
+    <span class="chapter">Semantic search and APIs</span>
+    <h1 id="study-title">SupportPilot</h1>
+    
+<div class="project-detail">
+  <p class="case-lead">A support API with an explicit decision about when it has enough evidence to answer.</p>
+  
+    <img class="case-diagram" src="../../static/portfolio/assets/confidence-gate.svg" alt="" loading="lazy" width="640" height="330">
+  
+  <p>A request enters through FastAPI. A rule-based agent labels the intent, and ChromaDB returns three candidate FAQs. The retrieval agent turns the closest result’s cosine distance into a score and checks it against a threshold.</p><p>A strong match supplies context for the language model. A weak match takes a fixed fallback path and skips the generation call. Separating retrieval from response generation makes that decision easy to trace in the code.</p>
+  <div class="gate-interaction" data-gate hidden>
+  <div class="gate-prompt"><label for="gate-distance">Try the confidence gate</label><span>Local demonstration</span></div>
+  <p>Change the distance to the nearest FAQ. A confidence score of 70% or higher sends the match to the answer generator.</p>
+  <div class="gate-value"><span>Cosine distance</span><output for="gate-distance" id="gate-number">0.40</output></div>
+  <input type="range" id="gate-distance" aria-label="Cosine distance" min="0" max="2" step="0.05" value="0.40">
+  <output for="gate-distance" id="gate-result" aria-live="polite">80% confidence · Use the FAQ</output>
+</div>
+
+  <p class="case-tags">Python · FastAPI · ChromaDB · Embeddings</p>
+  <div class="case-links">
+    <a href="https://github.com/Dishank25/supportpilot">Repository <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/supportpilot/blob/main/main.py">Trace the request <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/supportpilot/blob/main/agents/retrieval_agent.py">Inspect the threshold <span aria-hidden="true">↗</span></a>
+    
+  </div>
+</div>
+
+  </section>
+</main>
+
+  <footer>
+    <div class="shell">
+      <a class="brand" href="../../#top">
+        <svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+<span>Dishank Jain</span>
+      </a>
+      <a class="return" href="#top">Back to the surface <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>
