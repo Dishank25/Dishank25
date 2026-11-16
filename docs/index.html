@@ -7,11 +7,10 @@
   <title>Dishank Jain — AI Engineer</title>
   <meta name="description" content="AI engineer in Noida building search, document extraction, and recommendation systems. Explore technical case studies, experience, and selected code.">
   <link rel="icon" type="image/svg+xml" href="static/portfolio/assets/manta-mark.svg">
-  <link rel="stylesheet" href="static/portfolio/site.css">
+  <link rel="stylesheet" href="static/portfolio/site.css?v=2">
   
-  <link rel="preload" href="static/portfolio/assets/observatory.webp" as="image">
-  <script defer src="static/portfolio/site.js"></script>
-  <script defer src="static/portfolio/confidence.js"></script>
+  <link rel="preload" href="static/portfolio/assets/observatory-breathing.svg" as="image">
+  <script defer src="static/portfolio/site.js?v=2"></script>
 
 </head>
 <body>
@@ -37,7 +36,7 @@
   <section id="top" class="descent" aria-labelledby="hero-title">
     <div class="hero">
       <div class="hero-art" aria-hidden="true">
-        <img src="static/portfolio/assets/observatory.webp" data-character-motion="static/portfolio/assets/character-scene.svg" alt="" width="1920" height="711" fetchpriority="high">
+        <img src="static/portfolio/assets/observatory-breathing.svg" data-fallback="static/portfolio/assets/observatory.webp" alt="" width="1920" height="711" fetchpriority="high">
       </div>
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="sunshaft" aria-hidden="true"></div>
@@ -53,9 +52,6 @@
       <div class="hero-base shell">
         <span class="scene-caption"><svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
  Abyssal Observatory</span>
-        <button class="motion-button" type="button" data-motion hidden aria-pressed="false">
-          <span class="motion-icon" aria-hidden="true"></span><span data-motion-label>Pause motion</span>
-        </button>
       </div>
       <div class="depth-shade" aria-hidden="true"></div>
     </div>
@@ -65,7 +61,7 @@
       <div class="work-intro">
         <span class="chapter">Project studies</span>
         <h2 id="work-title">Selected <em>work.</em></h2>
-        <p>I build tools for finding answers in text, records, images, and purchase histories. These projects show how each system reaches a decision.</p>
+        <p>Explore my work in applied AI, Python, and mobile development. Each project explains the problem, the implementation, and the decisions behind it.</p>
         <figure class="room">
           <img src="static/portfolio/assets/signal-room.webp" width="1640" height="618" loading="lazy" alt="An illustrated deep-sea signal room overlooking a trail of underwater lamps.">
           <figcaption>The signal room</figcaption>
@@ -73,154 +69,86 @@
       </div>
       <div class="projects">
         
-          <details class="project" id="pawsupport" open>
-            <summary>
-              <span class="project-label">Retrieval and evaluation</span>
-              <span class="project-title">PawSupport</span>
-              <span class="disclosure" aria-hidden="true"></span>
-            </summary>
-            
-<div class="project-detail">
-  <p class="case-lead">A pet-care assistant that traces a customer’s question back to an approved FAQ.</p>
-  
-    <img class="case-diagram" src="static/portfolio/assets/faq-routing.svg" alt="" loading="lazy" width="640" height="330">
-  
-  <p>Customers can ask about the same policy in different words. I built a router that tries an exact FAQ match, a semantic match, and an alias lookup. When it finds a suitable FAQ, the language model can rephrase the approved answer.</p><p>To check the router, I used a labeled offline test set. Each answerable example points to its expected FAQ identifier. The evaluation can catch a persuasive reply that came from the wrong policy. Other examples check whether the system declines a question outside its scope.</p>
-  
-  <p class="case-tags">Python · FastAPI · Semantic search · Offline evaluation</p>
-  <div class="case-links">
-    <a href="https://github.com/Dishank25/ZiglyPawSupport">Repository <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/run_evaluation.py">Read the evaluation <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/test_cases_v1_strict.json">See the test cases <span aria-hidden="true">↗</span></a>
-    
-      <a class="permalink" href="projects/pawsupport/">Project page <span aria-hidden="true">→</span></a>
-    
-  </div>
-</div>
-
-          </details>
+          <article class="project" id="pawsupport">
+            <a class="project-link" href="projects/pawsupport/" aria-labelledby="project-title-pawsupport project-action-pawsupport">
+              <p class="project-label">Retrieval and evaluation</p>
+              <h3 class="project-title" id="project-title-pawsupport">PawSupport</h3>
+              <p class="project-intro">A pet-care assistant that traces a customer’s question back to an approved FAQ.</p>
+              <span class="project-action" id="project-action-pawsupport">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         
-          <details class="project" id="supportpilot">
-            <summary>
-              <span class="project-label">Semantic search and APIs</span>
-              <span class="project-title">SupportPilot</span>
-              <span class="disclosure" aria-hidden="true"></span>
-            </summary>
-            
-<div class="project-detail">
-  <p class="case-lead">A support API with an explicit decision about when it has enough evidence to answer.</p>
-  
-    <img class="case-diagram" src="static/portfolio/assets/confidence-gate.svg" alt="" loading="lazy" width="640" height="330">
-  
-  <p>A request enters through FastAPI. A rule-based agent labels the intent, and ChromaDB returns three candidate FAQs. The retrieval agent turns the closest result’s cosine distance into a score and checks it against a threshold.</p><p>A strong match supplies context for the language model. A weak match takes a fixed fallback path and skips the generation call. Separating retrieval from response generation makes that decision easy to trace in the code.</p>
-  <div class="gate-interaction" data-gate hidden>
-  <div class="gate-prompt"><label for="gate-distance">Try the confidence gate</label><span>Local demonstration</span></div>
-  <p>Change the distance to the nearest FAQ. A confidence score of 70% or higher sends the match to the answer generator.</p>
-  <div class="gate-value"><span>Cosine distance</span><output for="gate-distance" id="gate-number">0.40</output></div>
-  <input type="range" id="gate-distance" aria-label="Cosine distance" min="0" max="2" step="0.05" value="0.40">
-  <output for="gate-distance" id="gate-result" aria-live="polite">80% confidence · Use the FAQ</output>
-</div>
-
-  <p class="case-tags">Python · FastAPI · ChromaDB · Embeddings</p>
-  <div class="case-links">
-    <a href="https://github.com/Dishank25/supportpilot">Repository <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/supportpilot/blob/main/main.py">Trace the request <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/supportpilot/blob/main/agents/retrieval_agent.py">Inspect the threshold <span aria-hidden="true">↗</span></a>
-    
-      <a class="permalink" href="projects/supportpilot/">Project page <span aria-hidden="true">→</span></a>
-    
-  </div>
-</div>
-
-          </details>
+          <article class="project" id="supportpilot">
+            <a class="project-link" href="projects/supportpilot/" aria-labelledby="project-title-supportpilot project-action-supportpilot">
+              <p class="project-label">Semantic search and APIs</p>
+              <h3 class="project-title" id="project-title-supportpilot">SupportPilot</h3>
+              <p class="project-intro">A support API with an explicit decision about when it has enough evidence to answer.</p>
+              <span class="project-action" id="project-action-supportpilot">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         
-          <details class="project" id="abyssal-portfolio">
-            <summary>
-              <span class="project-label">Python web development</span>
-              <span class="project-title">Abyssal Observatory</span>
-              <span class="disclosure" aria-hidden="true"></span>
-            </summary>
-            
-<div class="project-detail">
-  <p class="case-lead">The Django application behind this portfolio, with an animated GitHub profile and a static edition for GitHub Pages.</p>
-  
-  <p>A recruiter can jump straight to a particular project. Each study has a Django route, while the homepage lets you expand projects in place. Both layouts use the same structured career and project content.</p><p>I use a Django management command to render those routes and collect their artwork into a portable static site. The animation has a still counterpart for people who prefer reduced motion.</p>
-  
-  <p class="case-tags">Python · Django · Django templates · Static site generation</p>
-  <div class="case-links">
-    <a href="https://github.com/Dishank25/abyssal-portfolio">Django repository <span aria-hidden="true">↗</span></a>
-    
-      <a class="permalink" href="projects/abyssal-portfolio/">Project page <span aria-hidden="true">→</span></a>
-    
-  </div>
-</div>
-
-          </details>
+          <article class="project" id="abyssal-portfolio">
+            <a class="project-link" href="projects/abyssal-portfolio/" aria-labelledby="project-title-abyssal-portfolio project-action-abyssal-portfolio">
+              <p class="project-label">Python web development</p>
+              <h3 class="project-title" id="project-title-abyssal-portfolio">Abyssal Observatory</h3>
+              <p class="project-intro">The Django application behind this portfolio, with an animated GitHub profile and a static edition for GitHub Pages.</p>
+              <span class="project-action" id="project-action-abyssal-portfolio">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         
-          <details class="project" id="veterinary-records">
-            <summary>
-              <span class="project-label">Structured data</span>
-              <span class="project-title">Veterinary document extraction</span>
-              <span class="disclosure" aria-hidden="true"></span>
-            </summary>
-            
-<div class="project-detail">
-  <p class="case-lead">A FastAPI service that turns veterinary PDFs into a workbook with separate record types.</p>
-  
-  <p>A veterinary document can hold a pet’s details, its treatment, and its next follow-up in the same file. I built a service that extracts those records, validates the fields, and writes each record type to its own Excel sheet. The structure lets a reviewer inspect a follow-up without reading the whole PDF again.</p>
-  
-  <p class="case-tags">Python · FastAPI · PDF extraction · Structured outputs</p>
-  <div class="case-links">
-    
-    
-      <a class="permalink" href="projects/veterinary-records/">Project page <span aria-hidden="true">→</span></a>
-    
-  </div>
-</div>
-
-          </details>
+          <article class="project" id="veterinary-records">
+            <a class="project-link" href="projects/veterinary-records/" aria-labelledby="project-title-veterinary-records project-action-veterinary-records">
+              <p class="project-label">Structured data</p>
+              <h3 class="project-title" id="project-title-veterinary-records">Veterinary document extraction</h3>
+              <p class="project-intro">A FastAPI service that turns veterinary PDFs into a workbook with separate record types.</p>
+              <span class="project-action" id="project-action-veterinary-records">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         
-          <details class="project" id="recommendations">
-            <summary>
-              <span class="project-label">Applied machine learning</span>
-              <span class="project-title">Product recommendations</span>
-              <span class="disclosure" aria-hidden="true"></span>
-            </summary>
-            
-<div class="project-detail">
-  <p class="case-lead">A purchase-history recommender that distinguishes repeat demand from one unusually large order.</p>
-  
-  <p>I used cosine similarity to find customers with similar purchase histories, then collected products their peers had bought. Ranking by quantity gave occasional bulk purchases too much influence. I switched the ranking signal to order frequency and excluded anything the customer had already purchased.</p>
-  
-  <p class="case-tags">Collaborative filtering · Cosine similarity · Ranking</p>
-  <div class="case-links">
-    
-    
-      <a class="permalink" href="projects/recommendations/">Project page <span aria-hidden="true">→</span></a>
-    
-  </div>
-</div>
-
-          </details>
+          <article class="project" id="recommendations">
+            <a class="project-link" href="projects/recommendations/" aria-labelledby="project-title-recommendations project-action-recommendations">
+              <p class="project-label">Applied machine learning</p>
+              <h3 class="project-title" id="project-title-recommendations">Product recommendations</h3>
+              <p class="project-intro">A purchase-history recommender that distinguishes repeat demand from one unusually large order.</p>
+              <span class="project-action" id="project-action-recommendations">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         
-          <details class="project" id="breed-identification">
-            <summary>
-              <span class="project-label">Computer vision prototype</span>
-              <span class="project-title">Pet breed identification</span>
-              <span class="disclosure" aria-hidden="true"></span>
-            </summary>
-            
-<div class="project-detail">
-  <p class="case-lead">An image API that returns an explicit unknown result when the model has low confidence.</p>
-  
-  <p>I prototyped a service that accepts a pet photo and asks GPT-4o Vision for a structured prediction. I checked the image input, validated the model’s JSON, and mapped low reported confidence to an unknown result. A caller can handle that outcome directly instead of treating every prediction as a definite breed.</p>
-  
-  <p class="case-tags">GPT-4o Vision · Structured outputs · Input validation</p>
-  <div class="case-links">
-    
-    
-      <a class="permalink" href="projects/breed-identification/">Project page <span aria-hidden="true">→</span></a>
-    
-  </div>
-</div>
-
-          </details>
+          <article class="project" id="breed-identification">
+            <a class="project-link" href="projects/breed-identification/" aria-labelledby="project-title-breed-identification project-action-breed-identification">
+              <p class="project-label">Computer vision prototype</p>
+              <h3 class="project-title" id="project-title-breed-identification">Pet breed identification</h3>
+              <p class="project-intro">An image API that returns an explicit unknown result when the model has low confidence.</p>
+              <span class="project-action" id="project-action-breed-identification">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+        
+          <article class="project" id="job-portal">
+            <a class="project-link" href="projects/job-portal/" aria-labelledby="project-title-job-portal project-action-job-portal">
+              <p class="project-label">Flutter · Mobile development</p>
+              <h3 class="project-title" id="project-title-job-portal">Student &amp; Recruiter Job Portal</h3>
+              <p class="project-intro">A two-sided Flutter app for browsing openings, posting jobs or internships, and reviewing applications.</p>
+              <span class="project-action" id="project-action-job-portal">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+        
+          <article class="project" id="job-discovery">
+            <a class="project-link" href="projects/job-discovery/" aria-labelledby="project-title-job-discovery project-action-job-discovery">
+              <p class="project-label">Flutter · Candidate experience</p>
+              <h3 class="project-title" id="project-title-job-discovery">Flutter Job Discovery</h3>
+              <p class="project-intro">A related job-portal snapshot focused on skills onboarding, search filters, and the candidate’s application flow.</p>
+              <span class="project-action" id="project-action-job-discovery">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
+        
+          <article class="project" id="terminal-tic-tac-toe">
+            <a class="project-link" href="projects/terminal-tic-tac-toe/" aria-labelledby="project-title-terminal-tic-tac-toe project-action-terminal-tic-tac-toe">
+              <p class="project-label">Python · Game logic</p>
+              <h3 class="project-title" id="project-title-terminal-tic-tac-toe">Terminal Tic-Tac-Toe</h3>
+              <p class="project-intro">A standard-library Python game that lets a human play tic-tac-toe against a computer in the terminal.</p>
+              <span class="project-action" id="project-action-terminal-tic-tac-toe">View project <span aria-hidden="true">→</span></span>
+            </a>
+          </article>
         
       </div>
     </section>
