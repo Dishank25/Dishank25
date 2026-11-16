@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 206" width="820" height="206" role="img" aria-labelledby="title desc">
+<title id="title">SupportPilot</title><desc id="desc">Three candidates enter a confidence gate. A solid path leads to an answer and a dashed path leads to a fallback.</desc>
+<defs>
+<linearGradient id="bg" x2="1" y2=".45" gradientUnits="objectBoundingBox"><stop stop-color="#1b141a"/><stop offset=".50" stop-color="#25141e"/><stop offset="1" stop-color="#2d1822"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#6f4036" stop-opacity=".52"/><stop offset="1" stop-color="#6f4036" stop-opacity="0"/></radialGradient>
+<linearGradient id="edge" x2="1" y2=".6" gradientUnits="objectBoundingBox"><stop stop-color="#78505b"/><stop offset=".5" stop-color="#52313e"/><stop offset="1" stop-color="#eeb58d"/></linearGradient>
+<pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle r=".85" cx="1" cy="1" fill="#eeb58d" opacity=".20"/></pattern>
+<clipPath id="clip"><rect x="1" y="1" width="818" height="204" rx="13"/></clipPath>
+
+<linearGradient id="facet" x2="1" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#805445"/><stop offset=".5" stop-color="#513345"/><stop offset="1" stop-color="#382337"/></linearGradient>
+<linearGradient id="band"><stop stop-color="#f7c097"/><stop offset=".6" stop-color="#cb7a68"/><stop offset="1" stop-color="#b85c61"/></linearGradient>
+<filter id="flare" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+<style>
+  .project {font-family: Georgia, 'Liberation Serif', serif; font-weight: 600; fill: #fff3df;}
+  .descriptor {font-family: 'DejaVu Sans', Arial, sans-serif; fill: #ead5cd;}
+  .terminal {font-family: 'DejaVu Sans Mono', monospace; font-weight: 600;}
+  .travel {stroke-dasharray: 2 39; animation: travel 3.5s linear infinite;}
+  .light {animation: glow 3.2s ease-in-out infinite;}
+  .sheet {animation: select 4.4s ease-in-out infinite;}
+  @keyframes travel {to {stroke-dashoffset: -82;}}
+  @keyframes glow {0%,100% {opacity:.55;} 50% {opacity:1;}}
+  @keyframes select {0%,15%,100% {transform:translateY(0);} 48%,62% {transform:translateY(-4px);}}
+  @media (prefers-reduced-motion: reduce) {.travel,.light,.sheet {animation:none!important;}}
+</style>
+</defs>
+<g clip-path="url(#clip)">
+ <rect width="820" height="206" fill="url(#bg)"/>
+ <ellipse cx="660" cy="100" rx="267" ry="151" fill="url(#halo)"/>
+ <path d="M430 0H820V206H396Z" fill="url(#dots)"/>
+ <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<g stroke="#845451" stroke-width="1.5"><path d="M461 64h29l61 37h26"/><path d="M454 102h116"/><path d="M461 141h29l61-38h26"/></g>
+<path class="travel" stroke="#ffc699" stroke-width="2.5" d="M461 64h29l61 37h26m-116 1h109m-109 39h29l61-38h26"/>
+<g stroke="#ebac98" stroke-width="1.6" fill="#462434"><path d="M457 59l10 5-10 5-10-5z"/><path d="M448 97l10 5-10 5-10-5z"/><path d="M457 136l10 5-10 5-10-5z"/></g>
+<path d="M646 99h15l34-43h52" stroke="#bc8a73" stroke-width="2.3"/>
+<path class="travel" d="M646 99h15l34-43h52" stroke="#ffe0aa" stroke-width="3.3"/>
+<path d="M646 104h15l35 42h51" stroke="#ac6b78" stroke-width="1.9" stroke-dasharray="4 4"/>
+</g>
+<g stroke-linejoin="round"><path d="M552 151l53-20 54 20-55 22z" fill="#181019" opacity=".8" filter="url(#flare)"/>
+<path d="M556 99l49-32 49 31-48 36z" fill="url(#facet)" stroke="url(#band)" stroke-width="1.7"/>
+<path d="M556 99l50 35v14l-50-36z" fill="#482b39" stroke="#966665" stroke-width="1.3"/>
+<path d="M606 134l48-36v14l-48 36z" fill="#69394a" stroke="#cc8379" stroke-width="1.3"/>
+<path d="M568 100l37-24 37 23-36 26z" fill="none" stroke="#f0ae94" stroke-width=".9" stroke-opacity=".6"/>
+<path d="M587 98l13-9m6 23 15-11m-23 1 10-7" stroke="#ffdfb2" stroke-width="3" stroke-linecap="round"/>
+</g>
+<g><circle class="light" cx="751" cy="56" r="9" fill="#ffd49e" filter="url(#flare)" opacity=".55"/><circle cx="751" cy="56" r="6" fill="#ffdbab"/><circle cx="751" cy="146" r="5.8" fill="#3a1b2a" stroke="#eaa4aa" stroke-width="1.7"/></g>
+<g font-size="15" class="terminal"><text x="700" y="40" fill="#f8c49b">answer</text><text x="683" y="170" fill="#e5a5ae">fallback</text></g>
+ <g transform="translate(38 0)">
+  <path fill="none" stroke="#eeb58d" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="round" d="M1 40l9 7-9 7 M15 55h14"/>
+  <text class="project" x="0" y="116" font-size="61" letter-spacing="-2.5">SupportPilot</text>
+  <text class="descriptor" x="2" y="150" font-size="20" letter-spacing=".1">Confidence-gated retrieval</text>
+ </g>
+</g>
+<rect x="1" y="1" rx="13" width="818" height="204" stroke="url(#edge)" stroke-width="1.4" fill="none"/>
+</svg>
