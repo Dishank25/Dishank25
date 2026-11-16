@@ -1,20 +1,38 @@
-# Dishank Jain · AI Engineer
+![Dishank Jain · AI Engineer](assets/dishank-jain.jpg)
 
-I build Python applications for search, document extraction, and product recommendations. In my support systems, one question shapes the design: **how do you know the assistant retrieved the right answer?**
+I build Python applications that find answers in a knowledge base, turn documents into structured records, and recommend products from purchase history. In my retrieval work, I test which source the system chose before I judge the answer it wrote.
 
-[Connect on LinkedIn](https://www.linkedin.com/in/dishankjain25/)
+[Featured projects](#featured-projects) · [Technical skills](#technical-skills) · [Connect on LinkedIn](https://www.linkedin.com/in/dishankjain25/)
 
-## Start with the code
+## Featured projects
 
-| Project | What to look for |
-| --- | --- |
-| [Zigly PawSupport](https://github.com/Dishank25/ZiglyPawSupport) | A FastAPI assistant that checks curated FAQs before generating a response. The [offline evaluation runner](https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/run_evaluation.py) tests whether the router selected the expected FAQ ID. |
-| [SupportPilot](https://github.com/Dishank25/supportpilot) | A smaller implementation of retrieval-augmented support. Follow a request through the [chat endpoint](https://github.com/Dishank25/supportpilot/blob/main/main.py) to see how intent classification, ChromaDB retrieval, and a confidence threshold determine whether the system answers. |
+### [PawSupport](https://github.com/Dishank25/ZiglyPawSupport)
 
-## Other engineering work
+[![PawSupport checks for an exact FAQ, then a semantic match, then an alias. Offline tests compare the selected FAQ ID with the expected one.](assets/pawsupport.png)](https://github.com/Dishank25/ZiglyPawSupport)
 
-- **Document extraction.** Built a FastAPI service that turns veterinary PDFs into structured pet, treatment, and follow-up records. It validates the extracted fields before exporting them to Excel.
-- **Product recommendations.** Compared purchase frequency and order quantity in a collaborative filtering model. I used cosine similarity to find customers with related purchase histories and excluded products each customer had already bought.
-- **Vision prototype.** Used GPT-4o Vision to identify pet breeds from uploaded photos. The API checks the image and the model’s JSON response and returns an unknown result when confidence is low.
+A customer can ask the same question in a dozen ways. I built a support assistant that routes those variations to a curated FAQ and an offline evaluation that checks the selected FAQ ID. A well-written reply still fails the test if it came from the wrong source.
 
-**Tools I use:** Python, FastAPI, Pydantic, ChromaDB, pandas, NumPy, scikit-learn, and Git.
+[Read the evaluation code →](https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/run_evaluation.py)
+
+### [SupportPilot](https://github.com/Dishank25/supportpilot)
+
+[![SupportPilot classifies intent, retrieves three candidates from ChromaDB, and uses a confidence threshold to answer or fall back.](assets/supportpilot.png)](https://github.com/Dishank25/supportpilot)
+
+When should a support assistant answer? I built a FastAPI service that retrieves three candidates from ChromaDB and returns a fallback when the best match is too weak. You can follow a request from the `/chat` endpoint through that decision.
+
+[Trace a chat request →](https://github.com/Dishank25/supportpilot/blob/main/main.py)
+
+## Technical skills
+
+- **AI and retrieval** · Embeddings, semantic search, retrieval-augmented generation, offline evaluation
+- **Python and APIs** · Python, FastAPI, Pydantic, ChromaDB, Git
+- **Data and machine learning** · pandas, NumPy, scikit-learn, collaborative filtering
+
+<details>
+<summary><strong>More engineering work</strong> · Document extraction, recommendations, and vision</summary>
+
+- **Veterinary document extraction.** Built a FastAPI service that extracts pet, treatment, and follow-up records from PDFs, validates the fields, and writes them to separate Excel sheets.
+- **Product recommendations.** Used cosine similarity to find customers with similar purchase histories, then ranked products by purchase frequency and excluded items each customer had already bought.
+- **Pet breed identification.** Built a GPT-4o Vision prototype that checks the uploaded image, validates the JSON response, and returns an unknown result when confidence is low.
+
+</details>
