@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="240" viewBox="0 0 960 240" role="img" aria-labelledby="title desc">
   <title id="title">Public projects and PawSupport evaluation coverage</title>
-  <desc id="desc">As of 16 November 2026, the five public repositories use Python in three and Dart in two as the primary language. The strict L1 PawSupport fixture defines 53 cases: 40 expect an FAQ answer and 13 expect a refusal.</desc>
+  <desc id="desc">As of 16 November 2026, three of the five public project repositories primarily use Python and two use Dart. The profile repository is excluded. The strict L1 PawSupport fixture defines 53 cases: 40 expect an FAQ answer and 13 expect a refusal.</desc>
   <defs>
     <linearGradient id="surface" x1="0%" y1="0%" x2="100%" y2="90%">
       <stop offset="0%" stop-color="#0C202D" />
@@ -11,9 +11,9 @@
   <g font-family="Arial, Helvetica, sans-serif">
     <rect x="1" y="1" width="958" height="238" rx="15" fill="url(#surface)" stroke="#314859" stroke-width="2" />
     <path d="M459 23V197 M29 198H930" stroke="#344656" stroke-width="1" />
-    <text x="30" y="43" fill="#A8C5CF" font-size="23" font-weight="600">Public repositories</text>
+    <text x="30" y="43" fill="#A8C5CF" font-size="23" font-weight="600">Public projects</text>
     <text x="490" y="43" fill="#A8C5CF" font-size="23" font-weight="600">PawSupport evaluation</text>
-    <text x="30" y="93" fill="#E9F2F8" font-size="38" font-weight="700" letter-spacing="-1">5 repositories</text>
+    <text x="30" y="93" fill="#E9F2F8" font-size="38" font-weight="700" letter-spacing="-1">5 project repositories</text>
     <text x="490" y="93" fill="#E9F2F8" font-size="38" font-weight="700" letter-spacing="-1">53 test cases</text>
     <rect x="31" y="113" width="68" height="22" rx="4" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.5" />
     <rect x="106" y="113" width="68" height="22" rx="4" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.5" />

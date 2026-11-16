@@ -40,7 +40,7 @@ Each request enters a FastAPI chat endpoint. The service identifies the intent, 
 
 ## Public work
 
-[![Public work snapshot on 16 November 2026. Primary repository languages: three Python and two Dart. PawSupport’s strict test set contains 40 expected FAQ answers and 13 expected refusals.](assets/public-work.svg)](https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/test_cases_v1_strict.json)
+[![Public work snapshot on 16 November 2026. Five public project repositories, excluding the profile repository: three primarily use Python and two use Dart. PawSupport’s strict test set contains 40 expected FAQ answers and 13 expected refusals.](assets/public-work.svg)](https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/test_cases_v1_strict.json)
 
 <details>
 <summary><strong>Explore the other three repositories</strong></summary>
