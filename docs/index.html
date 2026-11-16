@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#132d25">
+  <meta name="description" content="Dishank Jain's AI engineering portfolio. Explore projects in FAQ retrieval, veterinary document extraction, product recommendations, and vision model validation.">
+  <title>Dishank Jain | AI Engineer</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="frame nav-line">
+      <a class="signature" href="#main" aria-label="Dishank Jain, home"><span class="monogram" aria-hidden="true">dj</span> Dishank Jain</a>
+      <nav aria-label="Main navigation">
+        <a href="#work">Work</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="frame hero" aria-labelledby="intro-title">
+      <div class="intro">
+        <p class="eyebrow"><span class="rule" aria-hidden="true"></span> Applied AI engineering</p>
+        <h1 id="intro-title">Dishank <em>Jain</em></h1>
+        <p class="lead">I build Python applications that find answers, extract records from documents, and recommend products.</p>
+        <div class="actions">
+          <a class="button" href="#work">Explore my work <span aria-hidden="true">↓</span></a>
+          <a class="plain-link" href="https://github.com/Dishank25">GitHub profile <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="pipeline">
+        <figcaption><span>Inside a project</span><a href="#document-extraction">Document extraction <span aria-hidden="true">↘</span></a></figcaption>
+        <div class="illustration" aria-hidden="true">
+          <div class="sheet source-sheet">
+            <span class="file-label">PDF</span>
+            <div class="skeleton"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="sheet result-sheet">
+            <div class="result-head"><span class="sheet-icon">▤</span> Workbook</div>
+            <div class="sheet-row"><span>Pet details</span><b></b></div>
+            <div class="sheet-row"><span>Treatment</span><b></b></div>
+            <div class="sheet-row"><span>Follow-up</span><b></b></div>
+          </div>
+        </div>
+        <p>Veterinary PDFs to a structured Excel workbook</p>
+      </figure>
+    </section>
+    <section class="work" id="work" aria-labelledby="work-title">
+      <div class="frame">
+        <h2 id="work-title">Selected <em>work</em></h2>
+        <div class="case-grid">
+          <article class="case" id="faq-retrieval">
+            <p class="eyebrow">Retrieval and evaluation</p>
+            <h3>FAQ retrieval assistant</h3>
+            <p>A support assistant that finds the relevant FAQ before generating a reply. Exact matches and known aliases handle familiar questions, while semantic search handles alternate phrasing.</p>
+            <details><summary>Evaluation approach</summary><p>I wrote offline checks that compare the selected FAQ ID with the expected ID. A fluent response can still point to the wrong policy, so I tested the retrieval decision itself.</p></details>
+            <p class="code-links"><a href="https://github.com/Dishank25/ZiglyPawSupport">PawSupport source <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25/supportpilot">Related SupportPilot source <span aria-hidden="true">↗</span></a></p>
+          </article>
+          <article class="case" id="document-extraction">
+            <p class="eyebrow">Document intelligence</p>
+            <h3>Veterinary PDF extraction</h3>
+            <p>A FastAPI service that processes multiple veterinary PDFs and extracts pet details, treatments, and follow-ups. It validates the fields and writes the results to separate Excel sheets.</p>
+            <details><summary>Output design</summary><p>I organized the extraction schema around the three kinds of records that readers need in the workbook. This keeps treatment entries and future reminders identifiable when combining documents.</p></details>
+          </article>
+          <article class="case" id="product-recommendations">
+            <p class="eyebrow">Machine learning and ranking</p>
+            <h3>Product recommendations</h3>
+            <p>A collaborative filtering system that finds customers with similar purchase histories using cosine similarity. It ranks products from those neighbors and excludes items the customer already buys.</p>
+            <details><summary>Ranking decision</summary><p>I compared rankings based on purchase frequency and quantity. Large orders could dominate quantity-based rankings, so I selected frequency as the primary signal.</p></details>
+          </article>
+          <article class="case" id="vision-prototype">
+            <p class="eyebrow">Multimodal AI</p>
+            <h3>Pet breed identification</h3>
+            <p>A prototype that takes a pet photo and returns a structured breed prediction from GPT-4o Vision. It checks the image input and validates the model’s JSON response before returning a result.</p>
+            <details><summary>Handling uncertainty</summary><p>I checked the reported confidence and used an explicit “unknown” result when it was low. That gives the application a defined response when a breed cannot be identified reliably.</p></details>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="frame skills" id="skills" aria-labelledby="skills-title">
+      <h2 id="skills-title">Technical <em>skills</em></h2>
+      <dl class="skill-list">
+        <div><dt>AI systems</dt><dd>Retrieval-augmented generation, embeddings, semantic search, structured outputs, offline evaluation</dd></div>
+        <div><dt>Machine learning</dt><dd>scikit-learn, pandas, NumPy, collaborative filtering, cosine similarity</dd></div>
+        <div><dt>Application development</dt><dd>Python, FastAPI, Pydantic, REST APIs, Git, Streamlit</dd></div>
+      </dl>
+    </section>
+  </main>
+  <footer id="contact">
+    <div class="frame foot-line">
+      <div><p class="eyebrow">Contact</p><h2>Get in <em>touch</em></h2></div>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/dishankjain25/">LinkedIn <span aria-hidden="true">↗</span></a>
+        <a href="https://github.com/Dishank25">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
