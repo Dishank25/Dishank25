@@ -5,11 +5,11 @@
   </picture><br>
   <a href="https://github.com/Dishank25/ZiglyPawSupport"><picture>
     <source media="(max-width: 600px)" srcset="assets/pawsupport-mobile.svg" />
-    <img align="top" width="1080" src="assets/pawsupport.svg" alt="PawSupport. A pet-care assistant that matches questions to approved FAQs. Open the project.">
+    <img align="top" width="1080" src="assets/faq-signal.svg" alt="PawSupport. A pet-care assistant that matches questions to approved FAQs. Open the project.">
   </picture></a><br>
   <a href="https://github.com/Dishank25/supportpilot"><picture>
     <source media="(max-width: 600px)" srcset="assets/supportpilot-mobile.svg" />
-    <img align="top" width="1080" src="assets/supportpilot.svg" alt="SupportPilot. A support API that retrieves three candidate FAQs and falls back when the strongest match is weak. Open the project.">
+    <img align="top" width="1080" src="assets/confidence-gate.svg" alt="SupportPilot. A support API that retrieves three candidate FAQs and falls back when the strongest match is weak. Open the project.">
   </picture></a><br>
   <picture>
     <source media="(max-width: 600px)" srcset="assets/instruments-mobile.svg" />
