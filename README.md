@@ -1,8 +1,10 @@
+**[Enter the interactive observatory →](https://dishank25.github.io/Dishank25/)**
+
 <p>
-  <picture>
+  <a href="https://dishank25.github.io/Dishank25/"><picture>
     <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/observatory-mobile.svg" />
-    <img align="top" width="1080" src="assets/observatory.svg" alt="Dishank Jain, AI Engineer. I build AI tools for search, document extraction, and recommendations. An anime oceanographer watches a luminous manta glide past a deep-sea observatory.">
-  </picture><br>
+    <img align="top" width="1080" src="assets/observatory.svg" alt="Dishank Jain, AI Engineer. I build AI tools for search, document extraction, and recommendations. An anime oceanographer watches a luminous manta glide past a deep-sea observatory. Open the interactive portfolio.">
+  </picture></a><br>
   <a href="https://github.com/Dishank25/ZiglyPawSupport"><picture>
     <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/pawsupport-mobile.svg" />
     <img align="top" width="1080" src="assets/faq-signal.svg" alt="PawSupport. A pet-care assistant that matches questions to approved FAQs. Open the project.">
