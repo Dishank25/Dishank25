@@ -1,18 +1,18 @@
 <p>
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/observatory-mobile.svg" />
+    <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/observatory-mobile.svg" />
     <img align="top" width="1080" src="assets/observatory.svg" alt="Dishank Jain, AI Engineer. I build AI tools for search, document extraction, and recommendations. An anime oceanographer watches a luminous manta glide past a deep-sea observatory.">
   </picture><br>
   <a href="https://github.com/Dishank25/ZiglyPawSupport"><picture>
-    <source media="(max-width: 600px)" srcset="assets/pawsupport-mobile.svg" />
+    <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/pawsupport-mobile.svg" />
     <img align="top" width="1080" src="assets/faq-signal.svg" alt="PawSupport. A pet-care assistant that matches questions to approved FAQs. Open the project.">
   </picture></a><br>
   <a href="https://github.com/Dishank25/supportpilot"><picture>
-    <source media="(max-width: 600px)" srcset="assets/supportpilot-mobile.svg" />
+    <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/supportpilot-mobile.svg" />
     <img align="top" width="1080" src="assets/confidence-gate.svg" alt="SupportPilot. A support API that retrieves three candidate FAQs and falls back when the strongest match is weak. Open the project.">
   </picture></a><br>
   <picture>
-    <source media="(max-width: 600px)" srcset="assets/instruments-mobile.svg" />
+    <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/887dc519585de16b22f7427b990c0b79fbab1a92/assets/instruments-mobile.svg" />
     <img align="top" width="1080" src="assets/instruments.svg" alt="Technical skills include Python, FastAPI, Pydantic, ChromaDB, pandas, and scikit-learn.">
   </picture>
 </p>
