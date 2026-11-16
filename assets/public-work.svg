@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="240" viewBox="0 0 960 240" role="img" aria-labelledby="title desc">
+  <title id="title">Public projects and PawSupport evaluation coverage</title>
+  <desc id="desc">As of 16 November 2026, the five public repositories use Python in three and Dart in two as the primary language. The strict L1 PawSupport fixture defines 53 cases: 40 expect an FAQ answer and 13 expect a refusal.</desc>
+  <defs>
+    <linearGradient id="surface" x1="0%" y1="0%" x2="100%" y2="90%">
+      <stop offset="0%" stop-color="#0C202D" />
+      <stop offset="68%" stop-color="#101A2D" />
+      <stop offset="100%" stop-color="#161D31" />
+    </linearGradient>
+  </defs>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="1" y="1" width="958" height="238" rx="15" fill="url(#surface)" stroke="#314859" stroke-width="2" />
+    <path d="M459 23V197 M29 198H930" stroke="#344656" stroke-width="1" />
+    <text x="30" y="43" fill="#A8C5CF" font-size="23" font-weight="600">Public repositories</text>
+    <text x="490" y="43" fill="#A8C5CF" font-size="23" font-weight="600">PawSupport evaluation</text>
+    <text x="30" y="93" fill="#E9F2F8" font-size="38" font-weight="700" letter-spacing="-1">5 repositories</text>
+    <text x="490" y="93" fill="#E9F2F8" font-size="38" font-weight="700" letter-spacing="-1">53 test cases</text>
+    <rect x="31" y="113" width="68" height="22" rx="4" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.5" />
+    <rect x="106" y="113" width="68" height="22" rx="4" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.5" />
+    <rect x="181" y="113" width="68" height="22" rx="4" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.5" />
+    <rect x="256" y="113" width="68" height="22" rx="4" fill="#453D68" stroke="#C0ACFF" stroke-width="1.5" />
+    <path d="M264 124h52" stroke="#C0ACFF" stroke-width="1.6" stroke-dasharray="2 4" />
+    <rect x="331" y="113" width="68" height="22" rx="4" fill="#453D68" stroke="#C0ACFF" stroke-width="1.5" />
+    <path d="M339 124h52" stroke="#C0ACFF" stroke-width="1.6" stroke-dasharray="2 4" />
+    <circle cx="497" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="509.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="522" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="534.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="547" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="559.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="572" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="584.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="597" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="609.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="622" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="634.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="647" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="659.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="672" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="684.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="697" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="709.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="722" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="734.5" cy="115" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="497" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="509.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="522" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="534.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="547" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="559.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="572" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="584.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="597" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="609.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="622" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="634.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="647" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="659.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="672" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="684.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="697" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="709.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="722" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="734.5" cy="129" r="4.1" fill="#76E5D6" stroke="#76E5D6" stroke-width="1.6" />
+    <circle cx="778" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="790.5" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="803" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="815.5" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="828" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="840.5" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="853" cy="115" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="778" cy="129" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="790.5" cy="129" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="803" cy="129" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="815.5" cy="129" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="828" cy="129" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="840.5" cy="129" r="4.1" fill="#24233C" stroke="#C0ACFF" stroke-width="1.6" />
+    <circle cx="37" cy="163" r="5.5" fill="#76E5D6" />
+    <text x="52" y="170" font-size="23" fill="#E9F2F8">3 Python</text>
+    <path d="M201 157l6 6-6 6-6-6z" fill="none" stroke="#C0ACFF" stroke-width="1.8" />
+    <text x="216" y="170" font-size="23" fill="#E9F2F8">2 Dart</text>
+    <circle cx="496" cy="163" r="5.5" fill="#76E5D6" />
+    <text x="511" y="170" font-size="23" fill="#E9F2F8">40 answers</text>
+    <path d="M716 157l6 6-6 6-6-6z" fill="none" stroke="#C0ACFF" stroke-width="1.8" />
+    <text x="731" y="170" font-size="23" fill="#E9F2F8">13 refusals</text>
+    <text x="31" y="223" font-size="16" fill="#A8C5CF">Primary language per repository</text>
+    <text x="490" y="223" font-size="16" fill="#A8C5CF">Expected outcomes · Strict L1 test set</text>
+    <text x="930" y="223" font-size="15" text-anchor="end" fill="#A8C5CF">16 Nov 2026</text>
+  </g>
+</svg>
