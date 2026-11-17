@@ -133,10 +133,6 @@ class Canvas:
     def line(self, x1, y1, x2, y2, color=LINE):
         self.elements.append(f'<path d="M{x1:g} {y1:g} L{x2:g} {y2:g}" stroke="{color}" fill="none"/>')
 
-    def arrow(self, x, y, s=12):
-        self.elements.append(f'<path d="M{x-s} {y+s}l{s} -{s}m-{s} 0h{s}v{s}" fill="none" '
-                             'stroke="#80ead2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>')
-
     def label(self, value, y, color=MINT):
         size = 12
         self.txt(self.left, y, value.upper(), size, color, MONO, tracking=.9)
@@ -162,20 +158,22 @@ class Canvas:
             self.txt(x, y + i * leading, item, size, color)
         return y + (len(lines)-1) * leading
 
-    def finish(self, panel, height):
+    def finish(self, panel, height, intrinsic_width=None, rail=True):
+        physical_width = intrinsic_width or self.width
+        physical_height = round(physical_width * height / self.width, 3)
         marker = ""
         if self.marker_y is not None:
             y = self.marker_y
             marker = (f'<circle cx="{self.rail}" cy="{y}" r="4.25" fill="{INK}" stroke="{MINT}"/>'
                       f'<circle cx="{self.rail}" cy="{y}" r="1.3" fill="{MINT}"/>')
-        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.width}" height="{height}" '
+        rail_line = f'<path d="M{self.rail} 0v{height}" stroke="#31515a"/>' if rail else ""
+        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{physical_width}" height="{physical_height:g}" '
                 f'viewBox="0 0 {self.width} {height}" role="img" aria-labelledby="title desc">'
                 f'<title id="title">{escape(panel.title)}</title><desc id="desc">{escape(panel.alt())}</desc>'
-                f'<rect width="100%" height="100%" fill="{INK}"/><path d="M{self.rail} 0v{height}" '
-                f'stroke="#31515a"/>{marker}' + "".join(self.elements) + '</svg>\n')
+                f'<rect width="100%" height="100%" fill="{INK}"/>{rail_line}{marker}' + "".join(self.elements) + '</svg>\n')
 
 
-def render(panel, width):
+def render(panel, width, intrinsic_width=None):
     c = Canvas(width)
     w, left, right = width, c.left, c.right
     mobile, wide = c.mobile, c.wide
@@ -188,7 +186,6 @@ def render(panel, width):
             c.label("Featured project  /  Python · Django", 21)
             c.txt(left, 48, panel.title, 24, weight=700, tracking=-.8)
             height = 68
-        c.arrow(right, height-40 if mobile else 33)
         c.line(left, height-1, right, height-1)
     elif panel.kind == "about":
         c.label(panel.label, 43 if mobile else 31)
@@ -229,7 +226,6 @@ def render(panel, width):
         y = c.prose(left, y+(34 if mobile else 29), panel.paragraphs[0], text_width)
         y += 34 if mobile else 26
         c.txt(left, y, "View project", 15 if mobile else 14, MINT, weight=700)
-        c.arrow(left+(105 if mobile else 97), y-10, 8)
         height = y+(25 if mobile else 22)
     elif panel.kind == "skills":
         c.line(left, 1, right, 1)
@@ -248,8 +244,6 @@ def render(panel, width):
         y = c.prose(left, y + (40 if mobile else 32), panel.paragraphs[0], c.room)
         y += 35 if mobile else 27
         c.txt(left, y, panel.detail, 16 if mobile else 15, MINT, weight=700)
-        arrow_x = left + round(font(SANS, 16 if mobile else 15, 700).getlength(panel.detail)) + 20
-        c.arrow(arrow_x, y-11, 9)
         height = y + (35 if mobile else 28)
     elif panel.kind == "contact":
         c.line(left, 1, right, 1)
@@ -262,36 +256,114 @@ def render(panel, width):
             c.mixed("My", "LinkedIn.", 94)
         else:
             c.mixed("Connect on", "LinkedIn", 79)
-        c.arrow(right, 42 if mobile else 32, 10)
         height = 127 if mobile else 104
     else:
         c.line(left, .5, right, .5)
         c.txt(left, 36 if mobile else 31, panel.title, 15, MONO_COLOR)
-        c.arrow(right, 24 if mobile else 20, 9)
         height = 58 if mobile else 50
-    return c.finish(panel, height)
+    return c.finish(panel, height, intrinsic_width)
 
 
-def save_panel(panel, width):
-    svg = render(panel, width).encode()
+def save_svg(key, variant, source):
+    svg = source.encode()
     digest = hashlib.sha256(svg).hexdigest()[:10]
-    path = ASSETS / f"{panel.key}-{width}-{digest}.svg"
+    path = ASSETS / f"{key}-{variant}-{digest}.svg"
     (ROOT / path).write_bytes(svg)
     return path.as_posix()
+
+
+# A profile has a sidebar on desktop. These native picture sizes keep the
+# chapter rail and the paired project rows aligned within GitHub's content column.
+CELL_WIDTHS = ((1099, 296), (1219, 350), (1279, 396), (None, 426))
+
+
+def linked_picture(panel, sources, image):
+    source_tags = "".join(
+        f'<source media="(max-width: {limit}px)" srcset="{RAW}{path}">'
+        for limit, path in sources
+    )
+    return (f'<a href="{escape(panel.href, quote=True)}"><picture>{source_tags}'
+            f'<img align="top" src="{image}" alt="{escape(panel.alt(), quote=True)}">'
+            '</picture></a>')
+
+
+def full_row(panel):
+    variants = []
+    for limit, width in ((600, 360), (959, 660)):
+        path = save_svg(panel.key, f"stack-{width}", render(panel, width, intrinsic_width=1080))
+        variants.append((limit, path))
+    for limit, cell_width in CELL_WIDTHS:
+        width = 660 if cell_width < 396 else 960
+        physical_width = 2 * cell_width
+        path = save_svg(panel.key, f"row-{physical_width}", render(panel, width, physical_width))
+        variants.append((limit, path))
+    return '<div align="center">' + linked_picture(panel, variants[:-1], variants[-1][1]) + '</div>'
+
+
+def project_cell(panel, width, first):
+    c = Canvas(width)
+    # The rail follows the left edge of the page through both-column rows.
+    c.left = round(width / 15) if not first else round(width * .134)
+    c.right = width - round(width / 16)
+    c.rail = round(width / 15)
+    c.room = c.right - c.left
+    c.line(c.left, .5, c.right, .5)
+    label_size = 10 if width < 360 else 11
+    title_size = 21 if width < 360 else 24
+    c.txt(c.left, 27, panel.label.upper(), label_size, MONO_COLOR, MONO, tracking=.55)
+    art_width = round(width * .135)
+    c.elements.append(motif(panel.key, c.right-art_width, 5, art_width, 29))
+    y = c.heading(panel.title, 61, title_size)
+    y = c.prose(c.left, y+27, panel.paragraphs[0], c.room, 16)
+    return c, y
+
+
+def paired_row(pair):
+    # GitHub sanitizes page CSS. A linked picture with an intrinsic width can
+    # wrap like a word, retaining its own keyboard and touch target at every size.
+    # A phone source wider than its container takes the whole line through
+    # GitHub's standard max-width rule; desktop sources sit alongside each other.
+    variants = [[], []]
+    for i, panel in enumerate(pair):
+        for limit, width in ((600, 360), (959, 660)):
+            path = save_svg(panel.key, f"stack-{width}", render(panel, width, intrinsic_width=1080))
+            variants[i].append((limit, path))
+    for limit, width in CELL_WIDTHS:
+        cells = [project_cell(panel, width, i == 0) for i, panel in enumerate(pair)]
+        height = max(baseline for _, baseline in cells) + 51
+        for i, (c, _) in enumerate(cells):
+            c.txt(c.left, height-22, "View project", 14, MINT, weight=700)
+            if i == 0:
+                c.line(width-1, 10, width-1, height-10)
+            path = save_svg(pair[i].key, f"cell-{width}", c.finish(pair[i], height, rail=i == 0))
+            variants[i].append((limit, path))
+    links = [linked_picture(panel, sizes[:-1], sizes[-1][1])
+             for panel, sizes in zip(pair, variants)]
+    # No whitespace between the pictures: adjacent replaced elements allow a
+    # break between images but do not print a strip of GitHub's page background.
+    return '<div align="center">' + ''.join(links) + '</div>'
 
 
 def main():
     (ROOT / ASSETS).mkdir(parents=True, exist_ok=True)
     output = [f"<div>{HERO}</div>"]
+    pending = None
     for panel in get_panels():
-        mobile, medium, wide = (save_panel(panel, width) for width in (360, 660, 960))
-        output.append(f'<div><a href="{escape(panel.href, quote=True)}"><picture>\n'
-                      f'  <source media="(max-width: 600px)" srcset="{RAW}{mobile}">\n'
-                      f'  <source media="(max-width: 1200px)" srcset="{RAW}{medium}">\n'
-                      f'  <img align="top" width="1080" src="{wide}" alt="{escape(panel.alt(), quote=True)}">\n'
-                      '</picture></a></div>')
+        if panel.kind == "project":
+            if pending is None:
+                pending = panel
+            else:
+                output.append(paired_row((pending, panel)))
+                pending = None
+        else:
+            if pending is not None:
+                output.append(full_row(pending))
+                pending = None
+            output.append(full_row(panel))
+    if pending is not None:
+        output.append(full_row(pending))
     (ROOT / "README.md").write_text("\n".join(output)+"\n")
-    # Earlier READMEs can reference these hashed files through main. Keep them addressable.
+    # Older READMEs reference immutable fingerprinted assets through main.
 
 
 if __name__ == "__main__":
