@@ -27,10 +27,10 @@ MINT, LINE, MONO_COLOR = "#80ead2", "#29454c", "#a1cbbe"
 SANS = "Arial,Helvetica,sans-serif"
 SERIF = "Georgia,'Liberation Serif',serif"
 MONO = "'Liberation Mono',Consolas,monospace"
-HERO = """<a href="https://dishank25.github.io/Dishank25/"><picture>
-  <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/2a100f4d9834131c5c129b0d8cfeea1d2d21182d/assets/observatory-breathing-mobile.svg">
-  <img align="top" src="assets/observatory-breathing.svg" width="100%" alt="Dishank Jain, AI engineer. An illustrated engineer watches a luminous manta through the window of a deep-sea observatory. Open the portfolio.">
-</picture></a>"""
+HERO_ALT = ("Dishank Jain, AI engineer. An illustrated engineer watches a luminous manta through the window "
+            "of a deep-sea observatory. Open the portfolio.")
+HERO_REV = "https://raw.githubusercontent.com/Dishank25/Dishank25/2a100f4d9834131c5c129b0d8cfeea1d2d21182d/assets/"
+
 
 PROJECT_LABELS = {
     "pawsupport": "FAQ routing",
@@ -132,9 +132,7 @@ TABLET = Layout(660, 44, 22, 34, 23, 16, 11, 14)
 SMALL_DESKTOP = Layout(800, 53, 27, 35, 23, 16, 11, 14)
 DESKTOP = Layout(920, 60, 31, 40, 26, 18, 12, 16)
 STACK_UNTIL = 1023
-NARROW_DESKTOP_UNTIL = 1199
-COLUMN_PERCENT = 47
-GHOST = ASSETS / "inline-layout.svg"
+NARROW_DESKTOP_UNTIL = 1249
 
 
 class Canvas:
@@ -192,13 +190,13 @@ class Canvas:
     def svg(self, panel, height, natural_width=None):
         natural = natural_width or self.width
         track = (f'<path d="M{self.layout.rail} 0v{height}" stroke="#31515a"/>' if self.rail else '')
-        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{natural}" height="{natural*height/self.width:g}" '
-                f'viewBox="0 0 {self.width} {height}" role="img" aria-labelledby="title desc">'
+        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{natural}" height="{round(natural*height/self.width)}" '
+                f'viewBox="0 0 {self.width} {height}" preserveAspectRatio="none" style="background-color:{INK}" role="img" aria-labelledby="title desc">'
                 f'<title id="title">{escape(panel.title)}</title><desc id="desc">{escape(panel.alt())}</desc>'
                 f'<rect width="100%" height="100%" fill="{INK}"/>{track}' + ''.join(self.parts) + '</svg>\n')
 
 
-def chapter_svg(panel, layout):
+def chapter_svg(panel, layout, intrinsic_width):
     c = Canvas(layout)
     k = panel.kind
     if k == "feature":
@@ -239,14 +237,14 @@ def chapter_svg(panel, layout):
         c.line(c.left, .5, c.right, .5)
         y = 32
         c.action(y, panel.title)
-    return c.svg(panel, y + 24)
+    return c.svg(panel, y + 24, intrinsic_width)
 
 
 def project_cell(panel, layout, column=None):
     if column is None:
         c = Canvas(layout)
     else:
-        width = round(layout.width * COLUMN_PERCENT / 100)
+        width = layout.width // 2
         gutter = layout.margin // 2
         c = Canvas(layout, width, layout.margin if column == 0 else gutter,
                    width - (gutter if column == 0 else layout.margin), rail=(column == 0))
@@ -259,7 +257,7 @@ def project_cell(panel, layout, column=None):
     return c, y
 
 
-def project_svgs(panels, layout, *, stacked=False):
+def project_svgs(panels, layout, intrinsic_width, *, stacked=False):
     pair = len(panels) == 2 and not stacked
     cells = [project_cell(p, layout, i if pair else None) for i, p in enumerate(panels)]
     shared_height = max(y for _, y in cells) + 55
@@ -267,7 +265,7 @@ def project_svgs(panels, layout, *, stacked=False):
     for i, (c, y) in enumerate(cells):
         height = shared_height if pair else y + 55
         c.action(height-24, "View project")
-        result.append(c.svg(panels[i], height, natural_width=1200 if stacked else None))
+        result.append(c.svg(panels[i], height, natural_width=intrinsic_width))
     return result
 
 
@@ -279,64 +277,68 @@ def write_svg(key, variant, source):
     return path.as_posix()
 
 
-def picture(sources, image, alt, width=None, align="top"):
-    # Whitespace between adjacent images reserves space and can wrap the last cell.
-    attributes = f' width="{width}"' if width else ''
+# Modern browsers use the selected source's percentage width. Providing an
+# intrinsic canvas too keeps older renderers aligned if they ignore that hint.
+# Columns are ordinary adjacent links; float padding would expose GitHub's page.
+SIZES = ((440, PHONE, 1200), (600, LARGE_PHONE, 1200), (STACK_UNTIL, TABLET, 1200),
+         (NARROW_DESKTOP_UNTIL, SMALL_DESKTOP, 608), (None, DESKTOP, 800))
+
+
+def picture(sources, fallback, alt):
     tags = []
-    for limit, path in sources:
-        dimensions = ' width="0" height="0"' if path == GHOST.as_posix() else ''
-        tags.append(f'<source media="(max-width: {limit}px)" srcset="{RAW}{path}"{dimensions}>')
-    tags = ''.join(tags)
-    return (f'<picture>{tags}<img align="{align}"{attributes} src="{image}" '
+    for limit, url, width in sources:
+        media = f' media="(max-width: {limit}px)"' if limit is not None else ""
+        tags.append(f'<source{media} srcset="{url}" width="{width}%">')
+    return (f'<picture>{"".join(tags)}<img align="top" src="{fallback}" '
             f'alt="{escape(alt, quote=True)}"></picture>')
 
 
-def anchor(panel, inside):
-    return f'<a href="{escape(panel.href, quote=True)}">{inside}</a>'
+def anchor(url, artwork):
+    return f'<a href="{escape(url, quote=True)}">{artwork}</a>'
+
+
+def row(links):
+    # Intervening whitespace between two half-width images can force a line break.
+    return '<div align="center">' + ''.join(links) + '</div>'
+
+
+def hero():
+    wide = RAW + "assets/observatory-breathing.svg"
+    portrait = HERO_REV + "observatory-breathing-mobile.svg"
+    # Keep the original animated files byte-for-byte. Density descriptors assign
+    # the same fallback sizes as body panels (original widths are 960 and 420).
+    choices = [(600, portrait + ' 0.35x', 100), (STACK_UNTIL, wide + ' 0.8x', 100),
+               (NARROW_DESKTOP_UNTIL, wide + ' 1.57894737x', 100), (None, wide + ' 1.2x', 100)]
+    return row([anchor(SITE, picture(choices, "assets/observatory-breathing.svg", HERO_ALT))])
 
 
 def chapter(panel):
-    paths = [write_svg(panel.key, layout.width, chapter_svg(panel, layout))
-             for layout in (PHONE, LARGE_PHONE, TABLET, SMALL_DESKTOP, DESKTOP)]
-    widths = [(440, paths[0]), (600, paths[1]), (STACK_UNTIL, paths[2]), (NARROW_DESKTOP_UNTIL, paths[3])]
-    return '<div>' + anchor(panel, picture(widths, paths[4], panel.alt(), "100%")) + '</div>'
-
-
-def single_project(panel):
-    # Keep the full index usable when the collection grows to an odd count.
-    paths = [write_svg(panel.key, f"{layout.width}-single", project_svgs([panel], layout)[0])
-             for layout in (PHONE, LARGE_PHONE, TABLET, SMALL_DESKTOP, DESKTOP)]
-    return '<div>' + anchor(panel, picture([(440, paths[0]), (600, paths[1]), (STACK_UNTIL, paths[2]), (NARROW_DESKTOP_UNTIL, paths[3])],
-                                           paths[4], panel.alt(), "100%")) + '</div>'
+    sources = []
+    for limit, layout, natural in SIZES:
+        if panel.kind == "project":
+            svg = project_svgs([panel], layout, natural)[0]
+        else:
+            svg = chapter_svg(panel, layout, natural)
+        path = write_svg(panel.key, layout.width, svg)
+        sources.append((limit, RAW + path, 100))
+    return row([anchor(panel.href, picture(sources, path, panel.alt()))])
 
 
 def project_pair(pair):
-    variants = []
-    for layout, stacked in ((PHONE, True), (LARGE_PHONE, True), (TABLET, True), (SMALL_DESKTOP, False), (DESKTOP, False)):
-        suffix = f"{layout.width}-{'stack' if stacked else 'column'}"
-        variants.append([write_svg(p.key, suffix, art)
-                         for p, art in zip(pair, project_svgs(pair, layout, stacked=stacked))])
-    links = []
-    for i, panel in enumerate(pair):
-        # GitHub's stylesheet adds inward padding to floated images. Opposing
-        # floats anchor the painted outer edges to the hero while keeping room
-        # for that padding. A zero-height float never creates a mobile line box.
-        desktop = picture([(STACK_UNTIL, GHOST.as_posix()), (NARROW_DESKTOP_UNTIL, variants[3][i])],
-                          variants[4][i], panel.alt(), f"{COLUMN_PERCENT}%", "left" if i == 0 else "right")
-        phone = picture([(440, variants[0][i]), (600, variants[1][i]), (STACK_UNTIL, variants[2][i])],
-                        GHOST.as_posix(), "")
-        links.append(anchor(panel, desktop + phone))
-    return '<div>' + ''.join(links) + '</div>'
+    variants = [[], []]
+    for limit, layout, natural in SIZES:
+        stacked = limit is not None and limit <= STACK_UNTIL
+        artwork = project_svgs(pair, layout, natural if stacked else natural // 2, stacked=stacked)
+        for i, (panel, svg) in enumerate(zip(pair, artwork)):
+            path = write_svg(panel.key, f"{layout.width}-{'stack' if stacked else 'column'}", svg)
+            variants[i].append((limit, RAW + path, 100 if stacked else 50))
+    return row([anchor(panel.href, picture(sources, sources[-1][1].removeprefix(RAW), panel.alt()))
+                for panel, sources in zip(pair, variants)])
 
 
 def main():
     (ROOT / ASSETS).mkdir(parents=True, exist_ok=True)
-    # GitHub permits art-directed pictures but strips custom page styles. A
-    # transparent no-content source retires the alternative painting while one
-    # anchor keeps the same case-study destination and accessible name in both.
-    (ROOT / GHOST).write_text('<svg xmlns="http://www.w3.org/2000/svg" width=".001" height=".000001" '
-                             'viewBox="0 0 1000 1"/>\n')
-    output = [f'<div>{HERO}</div>']
+    output = [hero()]
     pending = None
     for panel in get_panels():
         if panel.kind == "project":
@@ -347,11 +349,11 @@ def main():
                 pending = None
         else:
             if pending is not None:
-                output.append(single_project(pending))
+                output.append(chapter(pending))
                 pending = None
             output.append(chapter(panel))
     if pending:
-        output.append(single_project(pending))
+        output.append(chapter(pending))
     (ROOT / "README.md").write_text("\n".join(output) + "\n")
     # Retain older hashed assets: historical README source URLs resolve through main.
 
