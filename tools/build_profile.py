@@ -120,7 +120,7 @@ class Canvas:
         self.left = round(width * (.085 if self.mobile else .067))
         self.right = width - self.left
         self.room = self.right - self.left
-        self.body_size = 18 if self.mobile else (23 if self.wide else 21)
+        self.body_size = 18 if not self.wide else 17
         self.elements = []
         self.marker_y = None
 
@@ -138,7 +138,7 @@ class Canvas:
                              'stroke="#80ead2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>')
 
     def label(self, value, y, color=MINT):
-        size = 12 if self.mobile else 14
+        size = 12
         self.txt(self.left, y, value.upper(), size, color, MONO, tracking=.9)
         return y
 
@@ -149,7 +149,7 @@ class Canvas:
         return y + (len(lines)-1) * (size + 2)
 
     def mixed(self, start, end, y):
-        size = 43 if self.mobile else (67 if self.wide else 52)
+        size = 43 if self.mobile else (40 if self.wide else 34)
         width = font(SANS, size, 700).getlength(start) - .045 * size * len(start)
         self.txt(self.left, y, start, size, weight=700, tracking=-.045*size)
         self.txt(self.left + width + size * .20, y, end, size, MINT, SERIF, italic=True, tracking=-.045*size)
@@ -185,35 +185,36 @@ def render(panel, width):
             c.txt(left, 53, panel.title, 27, weight=700, tracking=-.9)
             height = 78
         else:
-            c.label("Featured project  /  Python · Django", 29)
-            c.txt(left, 68, panel.title, 35, weight=700, tracking=-1.4)
-            height = 96
-        c.arrow(right, height-40)
+            c.label("Featured project  /  Python · Django", 21)
+            c.txt(left, 48, panel.title, 24, weight=700, tracking=-.8)
+            height = 68
+        c.arrow(right, height-40 if mobile else 33)
         c.line(left, height-1, right, height-1)
     elif panel.kind == "about":
-        c.label(panel.label, 43 if mobile else 55)
-        c.marker_y = 39 if mobile else 50
-        c.mixed("About", "me.", 97 if mobile else 132)
+        c.label(panel.label, 43 if mobile else 31)
+        c.marker_y = 39 if mobile else 27
+        c.mixed("About", "me.", 97 if mobile else 79)
         if not mobile:
-            art_w = 176 if wide else 128
-            c.elements.append(motif("overview", right-art_w, 30, art_w, 94))
-        y = 139 if mobile else 186
+            art_w = 130 if wide else 108
+            c.elements.append(motif("overview", right-art_w, 12, art_w, 67))
+        y = 139 if mobile else 115
         for p in panel.paragraphs:
-            y = c.prose(left, y, p, c.room) + (36 if mobile else 45)
+            measure = min(c.room, 650) if wide else c.room
+            y = c.prose(left, y, p, measure) + (36 if mobile else 29)
         height = y+4
     elif panel.kind == "heading":
         c.line(left, 1, right, 1)
-        c.label(panel.label, 36 if mobile else 47)
-        c.marker_y = 32 if mobile else 42
+        c.label(panel.label, 36 if mobile else 27)
+        c.marker_y = 32 if mobile else 23
         if panel.key == "selected-work":
-            c.mixed("Selected", "work.", 88 if mobile else 119)
+            c.mixed("Selected", "work.", 88 if mobile else 74)
         else:
-            c.mixed("Web &", "mobile.", 88 if mobile else 119)
-            c.label("Flutter, Django and Python", 117 if mobile else 152, MONO_COLOR)
-        height = (110 if mobile else 147) + (30 if panel.key == "more-projects" else 0)
+            c.mixed("Web &", "mobile.", 88 if mobile else 74)
+            c.label("Flutter, Django and Python", 117 if mobile else 98, MONO_COLOR)
+        height = (110 if mobile else 96) + ((30 if mobile else 24) if panel.key == "more-projects" else 0)
     elif panel.kind == "project":
         c.line(left, 0.5, right, .5)
-        art_w = 195 if wide else (68 if mobile else 132)
+        art_w = 164 if wide else (68 if mobile else 108)
         art_h = round(art_w * .58)
         if mobile:
             c.elements.append(motif(panel.key, right-art_w, 2, art_w, art_h))
@@ -221,52 +222,53 @@ def render(panel, width):
             y = c.heading(panel.title, 77, 30)
             text_width = c.room
         else:
-            c.elements.append(motif(panel.key, right-art_w, 43, art_w, art_h))
-            c.label(panel.label, 34, MONO_COLOR)
+            c.elements.append(motif(panel.key, right-art_w, 26, art_w, art_h))
+            c.label(panel.label, 24, MONO_COLOR)
             text_width = c.room - art_w - 24
-            y = c.heading(panel.title, 83, 43 if wide else 33, text_width)
-        y = c.prose(left, y+(34 if mobile else 43), panel.paragraphs[0], text_width)
-        y += 34 if mobile else 37
-        c.txt(left, y, "View project", 15 if mobile else 17, MINT, weight=700)
-        c.arrow(left+(105 if mobile else 120), y-10, 8)
-        height = y+(25 if mobile else 36)
+            y = c.heading(panel.title, 56, 27 if wide else 25, text_width)
+        y = c.prose(left, y+(34 if mobile else 29), panel.paragraphs[0], text_width)
+        y += 34 if mobile else 26
+        c.txt(left, y, "View project", 15 if mobile else 14, MINT, weight=700)
+        c.arrow(left+(105 if mobile else 97), y-10, 8)
+        height = y+(25 if mobile else 22)
     elif panel.kind == "skills":
         c.line(left, 1, right, 1)
-        c.mixed("Technical", "skills.", 81 if mobile else 118)
-        c.marker_y = 68 if mobile else 98
-        y = 111 if mobile else 163
+        c.mixed("Technical", "skills.", 81 if mobile else 72)
+        c.marker_y = 68 if mobile else 60
+        y = 111 if mobile else 98
         for name, tools in panel.rows:
             c.line(left, y, right, y)
-            y = c.heading(name, y+(35 if mobile else 48), 24 if mobile else 32)
-            y = c.prose(left, y+31, tools, c.room) + (25 if mobile else 33)
-        height = y + (13 if mobile else 25)
+            y = c.heading(name, y+(35 if mobile else 33), 24 if mobile else 23)
+            y = c.prose(left, y+(31 if mobile else 27), tools, c.room) + (25 if mobile else 22)
+        height = y + (13 if mobile else 14)
     elif panel.kind == "reference":
         c.line(left, 1, right, 1)
-        c.marker_y = 58 if mobile else 78
-        y = c.heading(panel.title+".", 68 if mobile else 96, 42 if mobile else 62)
-        y = c.prose(left, y + (40 if mobile else 49), panel.paragraphs[0], c.room)
-        y += 35
-        c.txt(left, y, panel.detail, 16 if mobile else 18, MINT, weight=700)
-        arrow_x = left + round(font(SANS, 16 if mobile else 18, 700).getlength(panel.detail)) + 20
+        c.marker_y = 58 if mobile else 53
+        y = c.heading(panel.title+".", 68 if mobile else 63, 42 if mobile else 38)
+        y = c.prose(left, y + (40 if mobile else 32), panel.paragraphs[0], c.room)
+        y += 35 if mobile else 27
+        c.txt(left, y, panel.detail, 16 if mobile else 15, MINT, weight=700)
+        arrow_x = left + round(font(SANS, 16 if mobile else 15, 700).getlength(panel.detail)) + 20
         c.arrow(arrow_x, y-11, 9)
-        height = y + (35 if mobile else 46)
+        height = y + (35 if mobile else 28)
     elif panel.kind == "contact":
         c.line(left, 1, right, 1)
-        c.label(panel.label, 41 if mobile else 56)
-        c.marker_y = 37 if mobile else 51
+        c.label(panel.label, 41 if mobile else 31)
+        c.marker_y = 37 if mobile else 27
         if not mobile:
-            c.elements.append(motif("contact", right-(138 if wide else 100), 26, 138 if wide else 100, 67))
+            art_w = 100 if wide else 84
+            c.elements.append(motif("contact", right-art_w-28, 20, art_w, 56))
         if mobile:
             c.mixed("My", "LinkedIn.", 94)
         else:
-            c.mixed("Connect on", "LinkedIn", 133)
-        c.arrow(right, 42, 10)
-        height = 127 if mobile else 171
+            c.mixed("Connect on", "LinkedIn", 79)
+        c.arrow(right, 42 if mobile else 32, 10)
+        height = 127 if mobile else 104
     else:
         c.line(left, .5, right, .5)
-        c.txt(left, 36 if mobile else 43, panel.title, 15 if mobile else 19, MONO_COLOR)
-        c.arrow(right, 24 if mobile else 29, 9)
-        height = 58 if mobile else 69
+        c.txt(left, 36 if mobile else 31, panel.title, 15, MONO_COLOR)
+        c.arrow(right, 24 if mobile else 20, 9)
+        height = 58 if mobile else 50
     return c.finish(panel, height)
 
 
@@ -281,19 +283,15 @@ def save_panel(panel, width):
 def main():
     (ROOT / ASSETS).mkdir(parents=True, exist_ok=True)
     output = [f"<div>{HERO}</div>"]
-    referenced = set()
     for panel in get_panels():
         mobile, medium, wide = (save_panel(panel, width) for width in (360, 660, 960))
-        referenced.update((mobile, medium, wide))
         output.append(f'<div><a href="{escape(panel.href, quote=True)}"><picture>\n'
                       f'  <source media="(max-width: 600px)" srcset="{RAW}{mobile}">\n'
-                      f'  <source media="(max-width: 1100px)" srcset="{RAW}{medium}">\n'
+                      f'  <source media="(max-width: 1200px)" srcset="{RAW}{medium}">\n'
                       f'  <img align="top" width="1080" src="{wide}" alt="{escape(panel.alt(), quote=True)}">\n'
                       '</picture></a></div>')
     (ROOT / "README.md").write_text("\n".join(output)+"\n")
-    for old in (ROOT / ASSETS).glob("*.svg"):
-        if old.relative_to(ROOT).as_posix() not in referenced:
-            old.unlink()
+    # Earlier READMEs can reference these hashed files through main. Keep them addressable.
 
 
 if __name__ == "__main__":
