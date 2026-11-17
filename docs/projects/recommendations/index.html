@@ -8,17 +8,15 @@
   <meta name="description" content="A purchase-history recommender that distinguishes repeat demand from one unusually large order.">
   <link rel="icon" type="image/svg+xml" href="../../static/portfolio/assets/manta-mark.svg">
   <script src="../../static/portfolio/navigation.js"></script>
-  <link rel="stylesheet" href="../../static/portfolio/site.css?v=3">
+  <link rel="stylesheet" href="../../static/portfolio/site.css?v=4">
   
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-header scrolled">
     <div class="header-inner">
-      <span class="brand">
-        <svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
-<span>Dishank Jain</span>
-      </span>
+      <span class="observatory-mark" aria-hidden="true"><svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+</span>
       <div class="site-menu">
         <button class="menu-toggle" type="button" popovertarget="site-menu-panel"
                 aria-label="Menu" aria-controls="site-menu-panel" aria-expanded="false">
@@ -32,7 +30,7 @@
             <a href="../../#experience">Experience</a>
             <a href="../../#skills">Skills</a>
             <a href="../../#contact">Contact</a>
-            <a href="https://github.com/Dishank25">GitHub <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/Dishank25">GitHub</a>
           </nav>
           <fieldset class="theme-picker" hidden>
             <legend>Theme</legend>
@@ -46,7 +44,7 @@
   
 <main id="main" class="study-page">
   <section class="shell" id="top" aria-labelledby="study-title">
-    <a class="study-back" href="../../#work">← Selected work</a>
+    <a class="study-back" href="../../#work">Back to selected work</a>
     <span class="chapter">Applied machine learning</span>
     <h1 id="study-title">Product recommendations</h1>
     
@@ -55,7 +53,7 @@
   
   <p>I used cosine similarity to find customers with similar purchase histories, then collected products their peers had bought. Ranking by quantity gave occasional bulk purchases too much influence. I switched the ranking signal to order frequency and excluded anything the customer had already purchased.</p>
   
-  <p class="case-tags">Collaborative filtering · Cosine similarity · Ranking</p>
+  <p class="case-tags">Collaborative filtering, Cosine similarity, Ranking</p>
   
 </div>
 
@@ -68,21 +66,21 @@
         <svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
 <span>Dishank Jain</span>
       </a>
-      <a class="return" href="#top">Back to the surface <span aria-hidden="true">↑</span></a>
+      <a class="return" href="#top">Back to the surface</a>
     </div>
   </footer>
   
-<link rel="stylesheet" href="../../static/portfolio/assistant.css">
-<div class="guide-dock" data-guide data-home="../../" data-project="recommendations" hidden>
-  <button type="button" class="guide-launch" aria-haspopup="dialog" aria-controls="guide-panel" aria-expanded="false" aria-label="Ask Dishank’s portfolio guide">
+<link rel="stylesheet" href="../../static/portfolio/assistant.css?v=abby-3">
+<div class="guide-dock" data-guide data-state="docked" data-home="../../" data-project="recommendations" hidden>
+  <button type="button" class="guide-launch" aria-haspopup="dialog" aria-controls="guide-panel" aria-expanded="false" aria-label="Chat with Abby, Dishank’s robo assistant">
     <img class="guide-bot" src="../../static/portfolio/assets/observatory-guide.webp" alt="" width="58" height="58">
-    <span class="guide-launch-text" aria-hidden="true">Ask the guide <span>↗</span></span>
+    <span class="guide-launch-text" aria-hidden="true">Ask Abby</span>
   </button>
   <section class="guide-panel" id="guide-panel" role="dialog" aria-labelledby="guide-title" hidden>
     <header class="guide-head">
       <img class="guide-emblem" src="../../static/portfolio/assets/observatory-guide.webp" alt="" width="48" height="48">
-      <div><h2 id="guide-title">Observatory guide</h2><p>Dishank’s portfolio assistant</p></div>
-      <button class="guide-close" type="button" aria-label="Close portfolio guide"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <div><h2 id="guide-title">Abby</h2><p>Dishank’s robo assistant</p></div>
+      <button class="guide-close" type="button" aria-label="Close chat with Abby"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
     </header>
     <div class="guide-scroll" tabindex="0" role="region" aria-label="Conversation">
       <p class="guide-welcome">I can walk you through Product recommendations or help you explore Dishank’s other work.</p>
@@ -95,13 +93,13 @@
     <form class="guide-compose">
       <label class="guide-sr" for="guide-input">Your question about Dishank</label>
       <input id="guide-input" name="question" type="text" placeholder="Ask about Dishank…" maxlength="650" autocomplete="off" enterkeyhint="send" required>
-      <button class="guide-send" type="submit" aria-label="Send question"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 18V6m-5 5 5-5 5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="guide-send" type="submit" aria-label="Send question">Send</button>
     </form>
   </section>
 </div>
 
-<script defer src="../../static/portfolio/concierge-engine.js"></script>
-<script defer src="../../static/portfolio/chat-ui.js"></script>
+<script defer src="../../static/portfolio/concierge-engine.js?v=abby-3"></script>
+<script defer src="../../static/portfolio/chat-ui.js?v=abby-3"></script>
 
 </body>
 </html>
