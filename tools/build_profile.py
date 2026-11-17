@@ -29,7 +29,7 @@ SERIF = "Georgia,'Liberation Serif',serif"
 MONO = "'Liberation Mono',Consolas,monospace"
 HERO = """<a href="https://dishank25.github.io/Dishank25/"><picture>
   <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/Dishank25/Dishank25/2a100f4d9834131c5c129b0d8cfeea1d2d21182d/assets/observatory-breathing-mobile.svg">
-  <img align="top" src="assets/observatory-breathing.svg" width="1080" alt="Dishank Jain, AI engineer. An illustrated engineer watches a luminous manta through the window of a deep-sea observatory. Open the portfolio.">
+  <img align="top" src="assets/observatory-breathing.svg" width="100%" alt="Dishank Jain, AI engineer. An illustrated engineer watches a luminous manta through the window of a deep-sea observatory. Open the portfolio.">
 </picture></a>"""
 
 PROJECT_LABELS = {
@@ -85,20 +85,21 @@ class Panel:
 
 
 def get_panels():
-    sections = re.split(r"^## (.+)$", (ROOT / "PROFILE.md").read_text(), flags=re.M)
+    sections = re.split(r"^#{2,3} (.+)$", (ROOT / "PROFILE.md").read_text(), flags=re.M)
     body = dict(zip(sections[1::2], sections[2::2]))
     about = tuple(body["About me"].strip().split("\n\n"))
-    yield Panel("featured", "feature", "Abyssal Observatory", GITHUB + "/abyssal-portfolio",
-                "Featured project", detail="Python / Django")
-    yield Panel("about", "about", "About me", SITE + "#about", "Noida, India", about)
-    groups = [("AI engineering projects", "Selected work", "AI engineering"),
-              ("Web, mobile, and Python projects", "Web, mobile & Python", "Software projects")]
-    for group, title, label in groups:
-        key = "selected-work" if group.startswith("AI ") else "more-projects"
-        yield Panel(key, "heading", title, SITE + "#work", label)
+    projects = []
+    for group in ("AI engineering projects", "Web, mobile, and Python projects"):
         for name, narrative, url in re.findall(r"^- \*\*(.+?)\.\*\* (.+?) \[[^\]]+\]\((https://dishank25.github.io/[^)]+)\)", body[group], re.M):
             slug = url.rstrip("/").rsplit("/", 1)[-1]
-            yield Panel(slug, "project", name, url, PROJECT_LABELS[slug], (narrative,))
+            projects.append(Panel(slug, "project", name, url, PROJECT_LABELS[slug], (narrative,)))
+    featured = next(p for p in projects if p.key == "abyssal-portfolio")
+    yield Panel("featured", "feature", featured.title, featured.href, "Featured project / Python · Django",
+                featured.paragraphs, detail="View project")
+    yield Panel("about", "about", "About me", SITE + "#about", "Noida, India", about)
+    yield Panel("my-works", "heading", "My works", SITE + "#work")
+    yield from (p for p in projects if p.key != featured.key)
+
     def table(name):
         return tuple(tuple(c.strip() for c in line.strip("|").split("|"))
                      for line in body[name].splitlines() if line.startswith("|"))[2:]
@@ -111,160 +112,166 @@ def get_panels():
     yield Panel("text", "text", "Read as text & browse source links", GITHUB + "/Dishank25/blob/main/PROFILE.md")
 
 
-class Canvas:
-    def __init__(self, width):
-        self.width = width
-        self.mobile = width == 360
-        self.wide = width == 960
-        self.rail = round(width * (18 / 420 if self.mobile else 32 / 960))
-        self.left = round(width * (.085 if self.mobile else .067))
-        self.right = width - self.left
-        self.room = self.right - self.left
-        self.body_size = 18 if not self.wide else 17
-        self.elements = []
-        self.marker_y = None
+@dataclass(frozen=True)
+class Layout:
+    """All type and horizontal coordinates are in the page's viewBox units."""
+    width: int
+    margin: int
+    rail: int
+    section: int
+    title: int
+    body: int
+    label: int
+    action: int
 
-    def txt(self, x, y, value, size, color=LIGHT, family=SANS, weight=400, italic=False, tracking=0):
-        self.elements.append(
-            f'<text x="{x:g}" y="{y:g}" fill="{color}" font-family="{family}" font-size="{size:g}" '
+
+# Page ratios match the anchors in the illustrated hero (63/960 and 36/420).
+PHONE = Layout(360, 31, 15, 32, 22, 16, 11, 14)
+LARGE_PHONE = Layout(475, 40, 20, 33, 23, 17, 11, 15)
+TABLET = Layout(660, 44, 22, 34, 23, 16, 11, 14)
+SMALL_DESKTOP = Layout(800, 53, 27, 35, 23, 16, 11, 14)
+DESKTOP = Layout(920, 60, 31, 40, 26, 18, 12, 16)
+STACK_UNTIL = 1023
+NARROW_DESKTOP_UNTIL = 1199
+COLUMN_PERCENT = 47
+GHOST = ASSETS / "inline-layout.svg"
+
+
+class Canvas:
+    def __init__(self, layout, width=None, left=None, right=None, rail=True):
+        self.layout = layout
+        self.width = width or layout.width
+        self.left = layout.margin if left is None else left
+        self.right = self.width - layout.margin if right is None else right
+        self.room = self.right - self.left
+        self.rail = rail
+        self.parts = []
+
+    def text(self, x, y, value, size, *, family=SANS, color=LIGHT, weight=400, italic=False, tracking=0):
+        self.parts.append(
+            f'<text x="{x:g}" y="{y:g}" fill="{color}" font-family="{family}" font-size="{size}" '
             f'font-weight="{weight}" font-style="{"italic" if italic else "normal"}" '
             f'letter-spacing="{tracking:g}">{escape(value)}</text>')
 
-    def line(self, x1, y1, x2, y2, color=LINE):
-        self.elements.append(f'<path d="M{x1:g} {y1:g} L{x2:g} {y2:g}" stroke="{color}" fill="none"/>')
+    def line(self, x1, y1, x2, y2):
+        self.parts.append(f'<path d="M{x1:g} {y1:g}L{x2:g} {y2:g}" stroke="{LINE}" fill="none"/>')
 
-    def label(self, value, y, color=MINT):
-        size = 12
-        self.txt(self.left, y, value.upper(), size, color, MONO, tracking=.9)
+    def marker(self, y):
+        self.parts.append(f'<circle cx="{self.layout.rail}" cy="{y}" r="4" fill="{INK}" stroke="{MINT}"/>'
+                          f'<circle cx="{self.layout.rail}" cy="{y}" r="1.2" fill="{MINT}"/>')
+
+    def label(self, value, y):
+        self.text(self.left, y, value.upper(), self.layout.label, family=MONO, color=MONO_COLOR, tracking=.7)
+
+    def text_lines(self, y, value, available=None, *, heading=False):
+        size = self.layout.title if heading else self.layout.body
+        weight = 700 if heading else 400
+        lines = wrap(value, size, available or self.room, weight)
+        leading = round(size * (1.17 if heading else 1.5))
+        for item in lines:
+            self.text(self.left, y, item, size, weight=weight,
+                      color=LIGHT if heading else BODY, tracking=-.025 * size if heading else 0)
+            y += leading
+        return y - leading
+
+    def chapter(self, first, last):
+        self.line(self.left, .5, self.right, .5)
+        size = self.layout.section
+        y = 25 + size
+        self.marker(y - size // 3)
+        self.text(self.left, y, first, size, weight=700, tracking=-.04 * size)
+        if last:
+            word_width = font(SANS, size, 700).getlength(first) - .04 * size * len(first)
+            self.text(self.left + word_width + .22 * size, y, last, size, family=SERIF, italic=True,
+                      color=MINT, tracking=-.04 * size)
         return y
 
-    def heading(self, title, y, size, width=None):
-        lines = wrap(title, size, width or self.room, 700)
-        for i, item in enumerate(lines):
-            self.txt(self.left, y + i * (size + 2), item, size, weight=700, tracking=-.035 * size)
-        return y + (len(lines)-1) * (size + 2)
+    def action(self, y, value):
+        self.text(self.left, y, value, self.layout.action, color=MINT, weight=700)
 
-    def mixed(self, start, end, y):
-        size = 43 if self.mobile else (40 if self.wide else 34)
-        width = font(SANS, size, 700).getlength(start) - .045 * size * len(start)
-        self.txt(self.left, y, start, size, weight=700, tracking=-.045*size)
-        self.txt(self.left + width + size * .20, y, end, size, MINT, SERIF, italic=True, tracking=-.045*size)
-
-    def prose(self, x, y, value, width, size=None, color=BODY):
-        size = size or self.body_size
-        lines = wrap(value, size, width)
-        leading = round(size * 1.43)
-        for i, item in enumerate(lines):
-            self.txt(x, y + i * leading, item, size, color)
-        return y + (len(lines)-1) * leading
-
-    def finish(self, panel, height, intrinsic_width=None, rail=True):
-        physical_width = intrinsic_width or self.width
-        physical_height = round(physical_width * height / self.width, 3)
-        marker = ""
-        if self.marker_y is not None:
-            y = self.marker_y
-            marker = (f'<circle cx="{self.rail}" cy="{y}" r="4.25" fill="{INK}" stroke="{MINT}"/>'
-                      f'<circle cx="{self.rail}" cy="{y}" r="1.3" fill="{MINT}"/>')
-        rail_line = f'<path d="M{self.rail} 0v{height}" stroke="#31515a"/>' if rail else ""
-        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{physical_width}" height="{physical_height:g}" '
+    def svg(self, panel, height, natural_width=None):
+        natural = natural_width or self.width
+        track = (f'<path d="M{self.layout.rail} 0v{height}" stroke="#31515a"/>' if self.rail else '')
+        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{natural}" height="{natural*height/self.width:g}" '
                 f'viewBox="0 0 {self.width} {height}" role="img" aria-labelledby="title desc">'
                 f'<title id="title">{escape(panel.title)}</title><desc id="desc">{escape(panel.alt())}</desc>'
-                f'<rect width="100%" height="100%" fill="{INK}"/>{rail_line}{marker}' + "".join(self.elements) + '</svg>\n')
+                f'<rect width="100%" height="100%" fill="{INK}"/>{track}' + ''.join(self.parts) + '</svg>\n')
 
 
-def render(panel, width, intrinsic_width=None):
-    c = Canvas(width)
-    w, left, right = width, c.left, c.right
-    mobile, wide = c.mobile, c.wide
-    if panel.kind == "feature":
-        if mobile:
-            c.label("Featured project  /  Python · Django", 19)
-            c.txt(left, 53, panel.title, 27, weight=700, tracking=-.9)
-            height = 78
-        else:
-            c.label("Featured project  /  Python · Django", 21)
-            c.txt(left, 48, panel.title, 24, weight=700, tracking=-.8)
-            height = 68
-        c.line(left, height-1, right, height-1)
-    elif panel.kind == "about":
-        c.label(panel.label, 43 if mobile else 31)
-        c.marker_y = 39 if mobile else 27
-        c.mixed("About", "me.", 97 if mobile else 79)
-        if not mobile:
-            art_w = 130 if wide else 108
-            c.elements.append(motif("overview", right-art_w, 12, art_w, 67))
-        y = 139 if mobile else 115
-        for p in panel.paragraphs:
-            measure = min(c.room, 650) if wide else c.room
-            y = c.prose(left, y, p, measure) + (36 if mobile else 29)
-        height = y+4
-    elif panel.kind == "heading":
-        c.line(left, 1, right, 1)
-        c.label(panel.label, 36 if mobile else 27)
-        c.marker_y = 32 if mobile else 23
-        if panel.key == "selected-work":
-            c.mixed("Selected", "work.", 88 if mobile else 74)
-        else:
-            c.mixed("Web &", "mobile.", 88 if mobile else 74)
-            c.label("Flutter, Django and Python", 117 if mobile else 98, MONO_COLOR)
-        height = (110 if mobile else 96) + ((30 if mobile else 24) if panel.key == "more-projects" else 0)
-    elif panel.kind == "project":
-        c.line(left, 0.5, right, .5)
-        art_w = 164 if wide else (68 if mobile else 108)
-        art_h = round(art_w * .58)
-        if mobile:
-            c.elements.append(motif(panel.key, right-art_w, 2, art_w, art_h))
-            c.label(panel.label, 33, MONO_COLOR)
-            y = c.heading(panel.title, 77, 30)
-            text_width = c.room
-        else:
-            c.elements.append(motif(panel.key, right-art_w, 26, art_w, art_h))
-            c.label(panel.label, 24, MONO_COLOR)
-            text_width = c.room - art_w - 24
-            y = c.heading(panel.title, 56, 27 if wide else 25, text_width)
-        y = c.prose(left, y+(34 if mobile else 29), panel.paragraphs[0], text_width)
-        y += 34 if mobile else 26
-        c.txt(left, y, "View project", 15 if mobile else 14, MINT, weight=700)
-        height = y+(25 if mobile else 22)
-    elif panel.kind == "skills":
-        c.line(left, 1, right, 1)
-        c.mixed("Technical", "skills.", 81 if mobile else 72)
-        c.marker_y = 68 if mobile else 60
-        y = 111 if mobile else 98
+def chapter_svg(panel, layout):
+    c = Canvas(layout)
+    k = panel.kind
+    if k == "feature":
+        c.label(panel.label, 27)
+        y = c.text_lines(27 + 11 + layout.title, panel.title, heading=True)
+        y = c.text_lines(y + 28, panel.paragraphs[0], min(c.room, 685)) + 31
+        c.action(y, panel.detail)
+    elif k == "about":
+        y = c.chapter("About", "me")
+        c.label(panel.label, y + 26)
+        if layout is DESKTOP:
+            c.parts.append(motif("overview", c.right-111, 16, 111, 56))
+        y += 55
+        for paragraph in panel.paragraphs:
+            y = c.text_lines(y, paragraph, min(c.room, 685)) + 26
+        y -= 26
+    elif k == "heading":
+        y = c.chapter("My", "works")
+    elif k == "skills":
+        y = c.chapter("Technical", "skills")
         for name, tools in panel.rows:
-            c.line(left, y, right, y)
-            y = c.heading(name, y+(35 if mobile else 33), 24 if mobile else 23)
-            y = c.prose(left, y+(31 if mobile else 27), tools, c.room) + (25 if mobile else 22)
-        height = y + (13 if mobile else 14)
-    elif panel.kind == "reference":
-        c.line(left, 1, right, 1)
-        c.marker_y = 58 if mobile else 53
-        y = c.heading(panel.title+".", 68 if mobile else 63, 42 if mobile else 38)
-        y = c.prose(left, y + (40 if mobile else 32), panel.paragraphs[0], c.room)
-        y += 35 if mobile else 27
-        c.txt(left, y, panel.detail, 16 if mobile else 15, MINT, weight=700)
-        height = y + (35 if mobile else 28)
-    elif panel.kind == "contact":
-        c.line(left, 1, right, 1)
-        c.label(panel.label, 41 if mobile else 31)
-        c.marker_y = 37 if mobile else 27
-        if not mobile:
-            art_w = 100 if wide else 84
-            c.elements.append(motif("contact", right-art_w-28, 20, art_w, 56))
-        if mobile:
-            c.mixed("My", "LinkedIn.", 94)
-        else:
-            c.mixed("Connect on", "LinkedIn", 79)
-        height = 127 if mobile else 104
+            y += 22
+            c.line(c.left, y, c.right, y)
+            y = c.text_lines(y + 33, name, heading=True)
+            y = c.text_lines(y + 27, tools)
+    elif k == "reference":
+        y = c.chapter(panel.title, "")
+        y = c.text_lines(y + 32, panel.paragraphs[0], min(c.room, 685))
+        y += 31
+        c.action(y, panel.detail)
+    elif k == "contact":
+        y = c.chapter("Connect", "")
+        y += 34
+        c.action(y, panel.title)
+        if layout is not PHONE:
+            c.parts.append(motif("contact", c.right-82, 18, 82, 49))
     else:
-        c.line(left, .5, right, .5)
-        c.txt(left, 36 if mobile else 31, panel.title, 15, MONO_COLOR)
-        height = 58 if mobile else 50
-    return c.finish(panel, height, intrinsic_width)
+        c.line(c.left, .5, c.right, .5)
+        y = 32
+        c.action(y, panel.title)
+    return c.svg(panel, y + 24)
 
 
-def save_svg(key, variant, source):
+def project_cell(panel, layout, column=None):
+    if column is None:
+        c = Canvas(layout)
+    else:
+        width = round(layout.width * COLUMN_PERCENT / 100)
+        gutter = layout.margin // 2
+        c = Canvas(layout, width, layout.margin if column == 0 else gutter,
+                   width - (gutter if column == 0 else layout.margin), rail=(column == 0))
+    c.line(c.left, .5, c.right, .5)
+    art_width = 51 if c.room < 300 else 70
+    c.parts.append(motif(panel.key, c.right-art_width, 4, art_width, 29))
+    c.label(panel.label, 25)
+    y = c.text_lines(25+15+layout.title, panel.title, heading=True)
+    y = c.text_lines(y + 28, panel.paragraphs[0], min(c.room, 685))
+    return c, y
+
+
+def project_svgs(panels, layout, *, stacked=False):
+    pair = len(panels) == 2 and not stacked
+    cells = [project_cell(p, layout, i if pair else None) for i, p in enumerate(panels)]
+    shared_height = max(y for _, y in cells) + 55
+    result = []
+    for i, (c, y) in enumerate(cells):
+        height = shared_height if pair else y + 55
+        c.action(height-24, "View project")
+        result.append(c.svg(panels[i], height, natural_width=1200 if stacked else None))
+    return result
+
+
+def write_svg(key, variant, source):
     svg = source.encode()
     digest = hashlib.sha256(svg).hexdigest()[:10]
     path = ASSETS / f"{key}-{variant}-{digest}.svg"
@@ -272,98 +279,81 @@ def save_svg(key, variant, source):
     return path.as_posix()
 
 
-# A profile has a sidebar on desktop. These native picture sizes keep the
-# chapter rail and the paired project rows aligned within GitHub's content column.
-CELL_WIDTHS = ((1099, 296), (1219, 350), (1279, 396), (None, 426))
+def picture(sources, image, alt, width=None, align="top"):
+    # Whitespace between adjacent images reserves space and can wrap the last cell.
+    attributes = f' width="{width}"' if width else ''
+    tags = []
+    for limit, path in sources:
+        dimensions = ' width="0" height="0"' if path == GHOST.as_posix() else ''
+        tags.append(f'<source media="(max-width: {limit}px)" srcset="{RAW}{path}"{dimensions}>')
+    tags = ''.join(tags)
+    return (f'<picture>{tags}<img align="{align}"{attributes} src="{image}" '
+            f'alt="{escape(alt, quote=True)}"></picture>')
 
 
-def linked_picture(panel, sources, image):
-    source_tags = "".join(
-        f'<source media="(max-width: {limit}px)" srcset="{RAW}{path}">'
-        for limit, path in sources
-    )
-    return (f'<a href="{escape(panel.href, quote=True)}"><picture>{source_tags}'
-            f'<img align="top" src="{image}" alt="{escape(panel.alt(), quote=True)}">'
-            '</picture></a>')
+def anchor(panel, inside):
+    return f'<a href="{escape(panel.href, quote=True)}">{inside}</a>'
 
 
-def full_row(panel):
+def chapter(panel):
+    paths = [write_svg(panel.key, layout.width, chapter_svg(panel, layout))
+             for layout in (PHONE, LARGE_PHONE, TABLET, SMALL_DESKTOP, DESKTOP)]
+    widths = [(440, paths[0]), (600, paths[1]), (STACK_UNTIL, paths[2]), (NARROW_DESKTOP_UNTIL, paths[3])]
+    return '<div>' + anchor(panel, picture(widths, paths[4], panel.alt(), "100%")) + '</div>'
+
+
+def single_project(panel):
+    # Keep the full index usable when the collection grows to an odd count.
+    paths = [write_svg(panel.key, f"{layout.width}-single", project_svgs([panel], layout)[0])
+             for layout in (PHONE, LARGE_PHONE, TABLET, SMALL_DESKTOP, DESKTOP)]
+    return '<div>' + anchor(panel, picture([(440, paths[0]), (600, paths[1]), (STACK_UNTIL, paths[2]), (NARROW_DESKTOP_UNTIL, paths[3])],
+                                           paths[4], panel.alt(), "100%")) + '</div>'
+
+
+def project_pair(pair):
     variants = []
-    for limit, width in ((600, 360), (959, 660)):
-        path = save_svg(panel.key, f"stack-{width}", render(panel, width, intrinsic_width=1080))
-        variants.append((limit, path))
-    for limit, cell_width in CELL_WIDTHS:
-        width = 660 if cell_width < 396 else 960
-        physical_width = 2 * cell_width
-        path = save_svg(panel.key, f"row-{physical_width}", render(panel, width, physical_width))
-        variants.append((limit, path))
-    return '<div align="center">' + linked_picture(panel, variants[:-1], variants[-1][1]) + '</div>'
-
-
-def project_cell(panel, width, first):
-    c = Canvas(width)
-    # The rail follows the left edge of the page through both-column rows.
-    c.left = round(width / 15) if not first else round(width * .134)
-    c.right = width - round(width / 16)
-    c.rail = round(width / 15)
-    c.room = c.right - c.left
-    c.line(c.left, .5, c.right, .5)
-    label_size = 10 if width < 360 else 11
-    title_size = 21 if width < 360 else 24
-    c.txt(c.left, 27, panel.label.upper(), label_size, MONO_COLOR, MONO, tracking=.55)
-    art_width = round(width * .135)
-    c.elements.append(motif(panel.key, c.right-art_width, 5, art_width, 29))
-    y = c.heading(panel.title, 61, title_size)
-    y = c.prose(c.left, y+27, panel.paragraphs[0], c.room, 16)
-    return c, y
-
-
-def paired_row(pair):
-    # GitHub sanitizes page CSS. A linked picture with an intrinsic width can
-    # wrap like a word, retaining its own keyboard and touch target at every size.
-    # A phone source wider than its container takes the whole line through
-    # GitHub's standard max-width rule; desktop sources sit alongside each other.
-    variants = [[], []]
+    for layout, stacked in ((PHONE, True), (LARGE_PHONE, True), (TABLET, True), (SMALL_DESKTOP, False), (DESKTOP, False)):
+        suffix = f"{layout.width}-{'stack' if stacked else 'column'}"
+        variants.append([write_svg(p.key, suffix, art)
+                         for p, art in zip(pair, project_svgs(pair, layout, stacked=stacked))])
+    links = []
     for i, panel in enumerate(pair):
-        for limit, width in ((600, 360), (959, 660)):
-            path = save_svg(panel.key, f"stack-{width}", render(panel, width, intrinsic_width=1080))
-            variants[i].append((limit, path))
-    for limit, width in CELL_WIDTHS:
-        cells = [project_cell(panel, width, i == 0) for i, panel in enumerate(pair)]
-        height = max(baseline for _, baseline in cells) + 51
-        for i, (c, _) in enumerate(cells):
-            c.txt(c.left, height-22, "View project", 14, MINT, weight=700)
-            if i == 0:
-                c.line(width-1, 10, width-1, height-10)
-            path = save_svg(pair[i].key, f"cell-{width}", c.finish(pair[i], height, rail=i == 0))
-            variants[i].append((limit, path))
-    links = [linked_picture(panel, sizes[:-1], sizes[-1][1])
-             for panel, sizes in zip(pair, variants)]
-    # No whitespace between the pictures: adjacent replaced elements allow a
-    # break between images but do not print a strip of GitHub's page background.
-    return '<div align="center">' + ''.join(links) + '</div>'
+        # GitHub's stylesheet adds inward padding to floated images. Opposing
+        # floats anchor the painted outer edges to the hero while keeping room
+        # for that padding. A zero-height float never creates a mobile line box.
+        desktop = picture([(STACK_UNTIL, GHOST.as_posix()), (NARROW_DESKTOP_UNTIL, variants[3][i])],
+                          variants[4][i], panel.alt(), f"{COLUMN_PERCENT}%", "left" if i == 0 else "right")
+        phone = picture([(440, variants[0][i]), (600, variants[1][i]), (STACK_UNTIL, variants[2][i])],
+                        GHOST.as_posix(), "")
+        links.append(anchor(panel, desktop + phone))
+    return '<div>' + ''.join(links) + '</div>'
 
 
 def main():
     (ROOT / ASSETS).mkdir(parents=True, exist_ok=True)
-    output = [f"<div>{HERO}</div>"]
+    # GitHub permits art-directed pictures but strips custom page styles. A
+    # transparent no-content source retires the alternative painting while one
+    # anchor keeps the same case-study destination and accessible name in both.
+    (ROOT / GHOST).write_text('<svg xmlns="http://www.w3.org/2000/svg" width=".001" height=".000001" '
+                             'viewBox="0 0 1000 1"/>\n')
+    output = [f'<div>{HERO}</div>']
     pending = None
     for panel in get_panels():
         if panel.kind == "project":
             if pending is None:
                 pending = panel
             else:
-                output.append(paired_row((pending, panel)))
+                output.append(project_pair((pending, panel)))
                 pending = None
         else:
             if pending is not None:
-                output.append(full_row(pending))
+                output.append(single_project(pending))
                 pending = None
-            output.append(full_row(panel))
-    if pending is not None:
-        output.append(full_row(pending))
-    (ROOT / "README.md").write_text("\n".join(output)+"\n")
-    # Older READMEs reference immutable fingerprinted assets through main.
+            output.append(chapter(panel))
+    if pending:
+        output.append(single_project(pending))
+    (ROOT / "README.md").write_text("\n".join(output) + "\n")
+    # Retain older hashed assets: historical README source URLs resolve through main.
 
 
 if __name__ == "__main__":

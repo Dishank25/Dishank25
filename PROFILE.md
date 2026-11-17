@@ -8,7 +8,9 @@ I'm Dishank Jain, an AI engineer based in Noida, India. I build Python tools for
 
 My projects bring machine learning models, Python APIs, and Flutter interfaces together.
 
-## AI engineering projects
+## My works
+
+### AI engineering projects
 
 - **PawSupport.** Customers can ask about the same policy in very different ways. This pet-care assistant tries an exact FAQ match, semantic search, and alias lookup. I evaluate it against expected FAQ identifiers so a fluent answer drawn from the wrong policy still counts as a miss. [Project page](https://dishank25.github.io/Dishank25/projects/pawsupport/) · [FAQ router](https://github.com/Dishank25/ZiglyPawSupport/blob/main/backend/rag/l1_router.py) · [Offline evaluation](https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/run_evaluation.py)
 - **SupportPilot.** A FastAPI service retrieves three FAQs from ChromaDB. The closest match determines whether the service passes context to the language model or returns a fallback. You can change the match distance in the demo and see the decision flip. [Project and demo](https://dishank25.github.io/Dishank25/projects/supportpilot/) · [Retrieval code](https://github.com/Dishank25/supportpilot/blob/main/agents/retrieval_agent.py)
@@ -16,7 +18,7 @@ My projects bring machine learning models, Python APIs, and Flutter interfaces t
 - **Product recommendations.** I used cosine similarity to find customers with similar purchase histories. Ranking products by order frequency reduced the influence of one unusually large order, and filtering previous purchases kept suggestions new to each customer. [Project page](https://dishank25.github.io/Dishank25/projects/recommendations/)
 - **Pet breed identification.** This computer vision prototype takes a photo, requests a structured prediction from GPT-4o Vision, and validates the response. It returns an explicit “unknown” when the model reports low confidence. [Project page](https://dishank25.github.io/Dishank25/projects/breed-identification/)
 
-## Web, mobile, and Python projects
+### Web, mobile, and Python projects
 
 - **Abyssal Observatory.** I built this portfolio in Python and Django. A single content file feeds the homepage and individual project routes. A Django management command renders those same pages for GitHub Pages. [Project page](https://dishank25.github.io/Dishank25/projects/abyssal-portfolio/) · [Django source](https://github.com/Dishank25/abyssal-portfolio) · [Profile artwork and published site](https://github.com/Dishank25/Dishank25)
 - **Student and recruiter job portal.** This Flutter project follows both sides of an application. Students browse openings and apply. Recruiters create job or internship postings and review applicants through a separate set of screens. The repository credits the original app snapshot to an109. [Project page](https://dishank25.github.io/Dishank25/projects/job-portal/) · [Source](https://github.com/Dishank25/Job-Portal)
@@ -38,4 +40,4 @@ My portfolio follows my work in AI engineering, machine learning, and Flutter de
 
 ## Education
 
-B.Tech in Computer Science and Engineering. [View education in my portfolio](https://dishank25.github.io/Dishank25/#experience).
+B.Tech in Computer Science and Engineering. I also took part in a student exchange program in Thailand. [View education in my portfolio](https://dishank25.github.io/Dishank25/#experience).
