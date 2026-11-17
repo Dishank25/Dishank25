@@ -1,3 +1,16 @@
+---
+layout: null
+---
+{%- comment -%}
+The Django export supplies the page markup. Keep the existing public work history
+in place and read the current education list from the same file as the Django app.
+{%- endcomment -%}
+{%- capture previous_home -%}{% include portfolio-baseline.html %}{%- endcapture -%}
+{%- assign roles = previous_home | split: '<div class="positions">' | last | split: '<div class="education">' | first -%}
+{%- assign previous_guide = previous_home | split: '<script id="guide-data" type="application/json">' | last | split: '</script>' | first -%}
+{%- assign before_education = previous_guide | split: '"education": ' | first -%}
+{%- assign after_education = previous_guide | split: ', "contact": ' | last -%}
+{%- capture education -%}{% include_relative static/portfolio/education.json %}{%- endcapture -%}
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,20 +21,18 @@
   <meta name="description" content="AI engineer in Noida building search, document extraction, and recommendation systems. Explore technical case studies, experience, and selected code.">
   <link rel="icon" type="image/svg+xml" href="static/portfolio/assets/manta-mark.svg">
   <script src="static/portfolio/navigation.js"></script>
-  <link rel="stylesheet" href="static/portfolio/site.css?v=3">
+  <link rel="stylesheet" href="static/portfolio/site.css?v=section-5">
   
   <link rel="preload" href="static/portfolio/assets/observatory-breathing.svg" as="image">
-  <script defer src="static/portfolio/site.js?v=3"></script>
+  <script defer src="static/portfolio/site.js?v=section-5"></script>
 
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
-      <span class="brand">
-        <svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
-<span>Dishank Jain</span>
-      </span>
+      <span class="observatory-mark" aria-hidden="true"><svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+</span>
       <div class="site-menu">
         <button class="menu-toggle" type="button" popovertarget="site-menu-panel"
                 aria-label="Menu" aria-controls="site-menu-panel" aria-expanded="false">
@@ -30,12 +41,12 @@
         <div class="menu-sheet" id="site-menu-panel" popover="auto">
           <nav class="main-nav" aria-label="Main navigation">
             <a href="./#top">Home</a>
-            <a href="./#work">Work</a>
+            <a href="./#work">My works</a>
             <a href="./#about">About</a>
             <a href="./#experience">Experience</a>
             <a href="./#skills">Skills</a>
             <a href="./#contact">Contact</a>
-            <a href="https://github.com/Dishank25">GitHub <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/Dishank25">GitHub</a>
           </nav>
           <fieldset class="theme-picker" hidden>
             <legend>Theme</legend>
@@ -58,15 +69,11 @@
       <div class="particles" aria-hidden="true"></div>
       <div class="hero-inner shell">
         <div class="hero-copy">
-          <p class="hero-role"><span></span>AI Engineer <span class="slash">/</span> Noida, India</p>
+          <p class="hero-role">AI Engineer in Noida, India</p>
           <h1 id="hero-title">Dishank <em>Jain.</em></h1>
           <p class="hero-intro">I build AI systems that can show where an answer came from.</p>
-          <a class="action" href="#work">Explore my work <span aria-hidden="true">↓</span></a>
+          <a class="action" href="#work">Explore my work</a>
         </div>
-      </div>
-      <div class="hero-base shell">
-        <span class="scene-caption"><svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
- Abyssal Observatory</span>
       </div>
       <div class="depth-shade" aria-hidden="true"></div>
     </div>
@@ -74,12 +81,10 @@
   <div id="work" class="work-area">
     <section class="work shell" aria-labelledby="work-title">
       <div class="work-intro">
-        <span class="chapter">Project studies</span>
-        <h2 id="work-title">Selected <em>work.</em></h2>
+        <h2 id="work-title">My <em>works.</em></h2>
         <p>Explore my work in applied AI, Python, and mobile development. Each project explains the problem, the implementation, and the decisions behind it.</p>
         <figure class="room">
           <img src="static/portfolio/assets/signal-room.webp" width="1640" height="618" loading="lazy" alt="An illustrated deep-sea signal room overlooking a trail of underwater lamps.">
-          <figcaption>The signal room</figcaption>
         </figure>
       </div>
       <div class="projects">
@@ -89,7 +94,7 @@
               <p class="project-label">Retrieval and evaluation</p>
               <h3 class="project-title" id="project-title-pawsupport">PawSupport</h3>
               <p class="project-intro">A pet-care assistant that traces a customer’s question back to an approved FAQ.</p>
-              <span class="project-action" id="project-action-pawsupport">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-pawsupport">View project</span>
             </a>
           </article>
         
@@ -98,7 +103,7 @@
               <p class="project-label">Semantic search and APIs</p>
               <h3 class="project-title" id="project-title-supportpilot">SupportPilot</h3>
               <p class="project-intro">A support API with an explicit decision about when it has enough evidence to answer.</p>
-              <span class="project-action" id="project-action-supportpilot">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-supportpilot">View project</span>
             </a>
           </article>
         
@@ -107,7 +112,7 @@
               <p class="project-label">Python web development</p>
               <h3 class="project-title" id="project-title-abyssal-portfolio">Abyssal Observatory</h3>
               <p class="project-intro">The Django application behind this portfolio, with an animated GitHub profile and a static edition for GitHub Pages.</p>
-              <span class="project-action" id="project-action-abyssal-portfolio">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-abyssal-portfolio">View project</span>
             </a>
           </article>
         
@@ -116,7 +121,7 @@
               <p class="project-label">Structured data</p>
               <h3 class="project-title" id="project-title-veterinary-records">Veterinary document extraction</h3>
               <p class="project-intro">A FastAPI service that turns veterinary PDFs into a workbook with separate record types.</p>
-              <span class="project-action" id="project-action-veterinary-records">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-veterinary-records">View project</span>
             </a>
           </article>
         
@@ -125,7 +130,7 @@
               <p class="project-label">Applied machine learning</p>
               <h3 class="project-title" id="project-title-recommendations">Product recommendations</h3>
               <p class="project-intro">A purchase-history recommender that distinguishes repeat demand from one unusually large order.</p>
-              <span class="project-action" id="project-action-recommendations">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-recommendations">View project</span>
             </a>
           </article>
         
@@ -134,7 +139,7 @@
               <p class="project-label">Computer vision prototype</p>
               <h3 class="project-title" id="project-title-breed-identification">Pet breed identification</h3>
               <p class="project-intro">An image API that returns an explicit unknown result when the model has low confidence.</p>
-              <span class="project-action" id="project-action-breed-identification">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-breed-identification">View project</span>
             </a>
           </article>
         
@@ -143,7 +148,7 @@
               <p class="project-label">Flutter · Mobile development</p>
               <h3 class="project-title" id="project-title-job-portal">Student &amp; Recruiter Job Portal</h3>
               <p class="project-intro">A two-sided Flutter app for browsing openings, posting jobs or internships, and reviewing applications.</p>
-              <span class="project-action" id="project-action-job-portal">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-job-portal">View project</span>
             </a>
           </article>
         
@@ -152,7 +157,7 @@
               <p class="project-label">Flutter · Candidate experience</p>
               <h3 class="project-title" id="project-title-job-discovery">Flutter Job Discovery</h3>
               <p class="project-intro">A related job-portal snapshot focused on skills onboarding, search filters, and the candidate’s application flow.</p>
-              <span class="project-action" id="project-action-job-discovery">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-job-discovery">View project</span>
             </a>
           </article>
         
@@ -161,7 +166,7 @@
               <p class="project-label">Python · Game logic</p>
               <h3 class="project-title" id="project-title-terminal-tic-tac-toe">Terminal Tic-Tac-Toe</h3>
               <p class="project-intro">A standard-library Python game that lets a human play tic-tac-toe against a computer in the terminal.</p>
-              <span class="project-action" id="project-action-terminal-tic-tac-toe">View project <span aria-hidden="true">→</span></span>
+              <span class="project-action" id="project-action-terminal-tic-tac-toe">View project</span>
             </a>
           </article>
         
@@ -170,7 +175,7 @@
   </div>
   <section class="about band" id="about" aria-labelledby="about-title">
     <div class="shell about-grid">
-      <div><span class="chapter">About me</span><h2 id="about-title">From screens <em>to search.</em></h2></div>
+      <div><h2 id="about-title">From screens <em>to search.</em></h2></div>
       <div class="about-body">
         <p>I started with datasets and Flutter screens. Working on both gave me a habit I still use. I follow an input all the way to the person who gets the result. In a support assistant, that means opening the source FAQ behind a reply. In a recommendation engine, it means checking why a product reached the top.</p><p>I’m based in Noida. My engineering work spans search, document extraction, recommendations, and computer vision. I currently work in AI consulting, bringing those engineering habits to conversations with business users.</p>
       </div>
@@ -178,37 +183,15 @@
   </section>
   <section class="experience shell band" id="experience" aria-labelledby="experience-title">
     <div class="section-head">
-      <span class="chapter">Work history</span><h2 id="experience-title"><em>Experience.</em></h2>
+      <h2 id="experience-title"><em>Experience.</em></h2>
     </div>
-    <div class="positions">
-      
-        <article class="position">
-          <div class="when">Jul 2026 – present</div>
-          <div><h3>Senior Executive, AI Consultant</h3><div class="company">Cosmo Ferrites · Cosmo First Group</div><p>I work on applied AI adoption and prototype tools for business users. I bring a developer’s perspective to conversations about which problems are worth solving and what a useful result would look like.</p></div>
-        </article>
-      
-        <article class="position">
-          <div class="when">Nov 2025 – Jun 2026</div>
-          <div><h3>Junior AI / Generative AI Engineer</h3><div class="company">Zigly Pet Care and Cosmo Films · Cosmo First Group</div><p>I worked as a junior engineer across two Cosmo First Group businesses. The role gave me hands-on experience with Python services, applied machine learning, and evaluating model outputs before handing them to a user.</p></div>
-        </article>
-      
-        <article class="position">
-          <div class="when">Jul – Dec 2024</div>
-          <div><h3>Software Developer, Flutter</h3><div class="company">Lloyd Group of Institutions</div><p>I built reusable Flutter widgets in Dart, managed application state with Provider, and connected authentication flows to REST APIs. That work taught me to treat the interface and its underlying service as one user experience.</p></div>
-        </article>
-      
-        <article class="position">
-          <div class="when">May – Jun 2024</div>
-          <div><h3>AI / Machine Learning Intern</h3><div class="company">Ethical Edufabrica Pvt. Ltd.</div><p>I explored and cleaned datasets with pandas and NumPy, selected features, and evaluated scikit-learn models. Working through those steps gave me a foundation in understanding inputs before choosing a model.</p></div>
-        </article>
-      
-      <div class="education">
-        <h3>Education &amp; training</h3>
+    <div class="positions">{{ roles }}<div class="education">
+        <h3>Education</h3>
         <ul>
           
             <li><span>2020 – 2024</span><div>B.Tech in Computer Science and Engineering<small>United College of Engineering and Research, Greater Noida</small></div></li>
           
-            <li><span>Apr 2025</span><div>Generative AI with NLP, Agentic AI and Fine Tuning<small>Euron</small></div></li>
+            <li><div>Student exchange program<small>Thailand</small></div></li>
           
         </ul>
       </div>
@@ -216,7 +199,7 @@
   </section>
   <section class="skills band" id="skills" aria-labelledby="skills-title">
     <div class="shell skills-grid">
-      <div><span class="chapter">Technical skills</span><h2 id="skills-title">My <em>toolkit.</em></h2></div>
+      <div><h2 id="skills-title">My <em>toolkit.</em></h2></div>
       <div class="skill-list">
         <article><h3>Retrieval and evaluation</h3><p>I use embeddings, semantic search, and ChromaDB to find relevant source material. Labeled queries and expected FAQ identifiers make retrieval behavior testable.</p></article><article><h3>Python applications</h3><p>I use Django to render this portfolio and FastAPI to build REST services. I validate structured data with Pydantic and build interfaces with Streamlit. Git and structured logging help me trace changes and inspect requests.</p></article><article><h3>Machine learning and data</h3><p>I use pandas and NumPy to prepare data, scikit-learn for machine learning, and cosine similarity and ranking for collaborative filtering.</p></article><article><h3>Interface development</h3><p>I’ve built Flutter applications in Dart, using Provider for state management and REST integrations for authentication.</p></article>
       </div>
@@ -225,10 +208,10 @@
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <div class="contact-cover" aria-hidden="true"></div>
     <div class="shell contact-inner">
-      <span class="chapter">Contact</span><h2 id="contact-title">Get in <em>touch.</em></h2>
+      <h2 id="contact-title">Get in <em>touch.</em></h2>
       <p>If you’re building an AI product around search, structured documents, or recommendations, I’d enjoy hearing what a good answer needs to look like for your users.</p>
       <div class="contact-links">
-        <a href="https://www.linkedin.com/in/dishankjain25/">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/Dishank25">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://www.linkedin.com/in/dishankjain25/">LinkedIn</a><a href="https://github.com/Dishank25">GitHub</a>
       </div>
     </div>
   </section>
@@ -240,24 +223,24 @@
         <svg viewBox="0 0 46 34" fill="none" aria-hidden="true"><path d="M2 13.5C11 14 18.2 9.5 23.4 3.5C28 10.6 35.8 14.2 44 13.5C37.8 17.5 33.8 22.2 30.4 27C27.7 25.9 25.6 24.1 23.7 21.6L21.4 31L19.5 21.5C17.7 24 15.4 25.7 12.9 26.5C11.3 22.2 6.1 16.3 2 13.5Z" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"/><path d="m8.4 15.2 11.7 3.6 3.2-9.1 3.7 9.1 10.9-3.4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
 <span>Dishank Jain</span>
       </a>
-      <a class="return" href="#top">Back to the surface <span aria-hidden="true">↑</span></a>
+      <a class="return" href="#top">Back to the surface</a>
     </div>
   </footer>
   
-<link rel="stylesheet" href="static/portfolio/assistant.css">
-<div class="guide-dock" data-guide data-home="./" data-project="" hidden>
-  <button type="button" class="guide-launch" aria-haspopup="dialog" aria-controls="guide-panel" aria-expanded="false" aria-label="Ask Dishank’s portfolio guide">
+<link rel="stylesheet" href="static/portfolio/assistant.css?v=abby-4">
+<div class="guide-dock" data-guide data-state="docked" data-home="./" data-project="" hidden>
+  <button type="button" class="guide-launch" aria-haspopup="dialog" aria-controls="guide-panel" aria-expanded="false" aria-label="Chat with Abby, Dishank’s robo assistant">
     <img class="guide-bot" src="static/portfolio/assets/observatory-guide.webp" alt="" width="58" height="58">
-    <span class="guide-launch-text" aria-hidden="true">Ask the guide <span>↗</span></span>
+    <span class="guide-launch-text" aria-hidden="true">Ask Abby</span>
   </button>
   <section class="guide-panel" id="guide-panel" role="dialog" aria-labelledby="guide-title" hidden>
     <header class="guide-head">
       <img class="guide-emblem" src="static/portfolio/assets/observatory-guide.webp" alt="" width="48" height="48">
-      <div><h2 id="guide-title">Observatory guide</h2><p>Dishank’s portfolio assistant</p></div>
-      <button class="guide-close" type="button" aria-label="Close portfolio guide"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <div><h2 id="guide-title">Abby</h2><p>Dishank’s robo assistant</p></div>
+      <button class="guide-close" type="button" aria-label="Close chat with Abby"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
     </header>
     <div class="guide-scroll" tabindex="0" role="region" aria-label="Conversation">
-      <p class="guide-welcome">Hi, I’m Dishank’s guide. Ask me about his projects, what he built them with, or his experience.</p>
+      <p class="guide-welcome">Ask me about his projects, what he built them with, or his experience.</p>
       <div class="guide-log" role="log" aria-label="Messages" aria-live="polite" aria-relevant="additions"></div>
       <div class="guide-suggestions" role="group" aria-label="Suggested questions">
         <button type="button">Which projects use AI?</button><button type="button">What’s his experience?</button>
@@ -266,13 +249,13 @@
     <form class="guide-compose">
       <label class="guide-sr" for="guide-input">Your question about Dishank</label>
       <input id="guide-input" name="question" type="text" placeholder="Ask about Dishank…" maxlength="650" autocomplete="off" enterkeyhint="send" required>
-      <button class="guide-send" type="submit" aria-label="Send question"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 18V6m-5 5 5-5 5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="guide-send" type="submit" aria-label="Send question">Send</button>
     </form>
   </section>
 </div>
-<script id="guide-data" type="application/json">{"name": "Dishank Jain", "role": "AI Engineer", "location": "Noida, India", "hero": {"lead": "I build AI systems that can show where an answer came from."}, "about": {"paragraphs": ["I started with datasets and Flutter screens. Working on both gave me a habit I still use. I follow an input all the way to the person who gets the result. In a support assistant, that means opening the source FAQ behind a reply. In a recommendation engine, it means checking why a product reached the top.", "I\u2019m based in Noida. My engineering work spans search, document extraction, recommendations, and computer vision. I currently work in AI consulting, bringing those engineering habits to conversations with business users."]}, "experience": [{"company": "Cosmo Ferrites \u00b7 Cosmo First Group", "title": "Senior Executive, AI Consultant", "dates": "Jul 2026 \u2013 present", "body": "I work on applied AI adoption and prototype tools for business users. I bring a developer\u2019s perspective to conversations about which problems are worth solving and what a useful result would look like."}, {"company": "Zigly Pet Care and Cosmo Films \u00b7 Cosmo First Group", "title": "Junior AI / Generative AI Engineer", "dates": "Nov 2025 \u2013 Jun 2026", "body": "I worked as a junior engineer across two Cosmo First Group businesses. The role gave me hands-on experience with Python services, applied machine learning, and evaluating model outputs before handing them to a user."}, {"company": "Lloyd Group of Institutions", "title": "Software Developer, Flutter", "dates": "Jul \u2013 Dec 2024", "body": "I built reusable Flutter widgets in Dart, managed application state with Provider, and connected authentication flows to REST APIs. That work taught me to treat the interface and its underlying service as one user experience."}, {"company": "Ethical Edufabrica Pvt. Ltd.", "title": "AI / Machine Learning Intern", "dates": "May \u2013 Jun 2024", "body": "I explored and cleaned datasets with pandas and NumPy, selected features, and evaluated scikit-learn models. Working through those steps gave me a foundation in understanding inputs before choosing a model."}], "projects": [{"id": "pawsupport", "title": "PawSupport", "category": "Retrieval and evaluation", "intro": "A pet-care assistant that traces a customer\u2019s question back to an approved FAQ.", "paragraphs": ["Customers can ask about the same policy in different words. I built a router that tries an exact FAQ match, a semantic match, and an alias lookup. When it finds a suitable FAQ, the language model can rephrase the approved answer.", "To check the router, I used a labeled offline test set. Each answerable example points to its expected FAQ identifier. The evaluation can catch a persuasive reply that came from the wrong policy. Other examples check whether the system declines a question outside its scope."], "tags": ["Python", "FastAPI", "Semantic search", "Offline evaluation"], "links": [{"label": "Repository", "url": "https://github.com/Dishank25/ZiglyPawSupport"}, {"label": "Read the evaluation", "url": "https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/run_evaluation.py"}, {"label": "See the test cases", "url": "https://github.com/Dishank25/ZiglyPawSupport/blob/main/evaluation/test_cases_v1_strict.json"}], "diagram": "assets/faq-routing.svg"}, {"id": "supportpilot", "title": "SupportPilot", "category": "Semantic search and APIs", "intro": "A support API with an explicit decision about when it has enough evidence to answer.", "paragraphs": ["A request enters through FastAPI. A rule-based agent labels the intent, and ChromaDB returns three candidate FAQs. The retrieval agent turns the closest result\u2019s cosine distance into a score and checks it against a threshold.", "A strong match supplies context for the language model. A weak match takes a fixed fallback path and skips the generation call. Separating retrieval from response generation makes that decision easy to trace in the code."], "tags": ["Python", "FastAPI", "ChromaDB", "Embeddings"], "links": [{"label": "Repository", "url": "https://github.com/Dishank25/supportpilot"}, {"label": "Trace the request", "url": "https://github.com/Dishank25/supportpilot/blob/main/main.py"}, {"label": "Inspect the threshold", "url": "https://github.com/Dishank25/supportpilot/blob/main/agents/retrieval_agent.py"}], "diagram": "assets/confidence-gate.svg", "demo": "confidence"}, {"id": "abyssal-portfolio", "title": "Abyssal Observatory", "category": "Python web development", "intro": "The Django application behind this portfolio, with an animated GitHub profile and a static edition for GitHub Pages.", "paragraphs": ["Every project has its own Django route. The homepage lists the studies and opens them directly. A single structured content file supplies the project summaries and detail pages.", "A Django management command renders the same routes and gathers the artwork into a portable static site. The character\u2019s breathing loops automatically, while scroll lighting and other background effects are adjusted for visitors who prefer reduced motion.", "The floating robot answers visitors\u2019 questions by searching the published portfolio in their browser. It can follow a question about a project back to the case study. Visitors can also switch between Abyss and Daylight in the menu and keep their preferred theme when they open another project."], "tags": ["Python", "Django", "Django templates", "Static site generation"], "links": [{"label": "Django repository", "url": "https://github.com/Dishank25/abyssal-portfolio"}]}, {"id": "veterinary-records", "title": "Veterinary document extraction", "category": "Structured data", "intro": "A FastAPI service that turns veterinary PDFs into a workbook with separate record types.", "paragraphs": ["A veterinary document can hold a pet\u2019s details, its treatment, and its next follow-up in the same file. I built a service that extracts those records, validates the fields, and writes each record type to its own Excel sheet. The structure lets a reviewer inspect a follow-up without reading the whole PDF again."], "tags": ["Python", "FastAPI", "PDF extraction", "Structured outputs"], "links": []}, {"id": "recommendations", "title": "Product recommendations", "category": "Applied machine learning", "intro": "A purchase-history recommender that distinguishes repeat demand from one unusually large order.", "paragraphs": ["I used cosine similarity to find customers with similar purchase histories, then collected products their peers had bought. Ranking by quantity gave occasional bulk purchases too much influence. I switched the ranking signal to order frequency and excluded anything the customer had already purchased."], "tags": ["Collaborative filtering", "Cosine similarity", "Ranking"], "links": []}, {"id": "breed-identification", "title": "Pet breed identification", "category": "Computer vision prototype", "intro": "An image API that returns an explicit unknown result when the model has low confidence.", "paragraphs": ["I prototyped a service that accepts a pet photo and asks GPT-4o Vision for a structured prediction. I checked the image input, validated the model\u2019s JSON, and mapped low reported confidence to an unknown result. A caller can handle that outcome directly instead of treating every prediction as a definite breed."], "tags": ["GPT-4o Vision", "Structured outputs", "Input validation"], "links": []}, {"id": "job-portal", "title": "Student \u0026 Recruiter Job Portal", "category": "Flutter \u00b7 Mobile development", "intro": "A two-sided Flutter app for browsing openings, posting jobs or internships, and reviewing applications.", "paragraphs": ["A student can move from search to an opening and start an application. A separate recruiter flow collects the role, skills, and screening questions for a job or internship posting. Recruiters can also open a list of applicants to review.", "This repository hosts a shared app snapshot originally committed by an109. Its dependency configuration connects the screens to repositories, use cases, and BLoCs. Listings and applications need access to the configured backend."], "tags": ["Flutter", "Dart", "BLoC", "REST APIs"], "links": [{"label": "Repository", "url": "https://github.com/Dishank25/Job-Portal"}, {"label": "Opportunity posting form", "url": "https://github.com/Dishank25/Job-Portal/blob/main/lib/views/post_opportunities/presentation/views/post_opportunity_screen.dart"}, {"label": "Original app snapshot", "url": "https://github.com/Dishank25/Job-Portal/commit/d0c63d5458af34687316fe92be18caa91d13bb0b"}], "related": {"id": "job-discovery", "title": "Flutter Job Discovery"}}, {"id": "job-discovery", "title": "Flutter Job Discovery", "category": "Flutter \u00b7 Candidate experience", "intro": "A related job-portal snapshot focused on skills onboarding, search filters, and the candidate\u2019s application flow.", "paragraphs": ["The candidate\u2019s signup flow groups skills and subskills by domain. When looking for a role, the candidate can set location and work-experience filters, then open the job details.", "This snapshot shares code with the Student \u0026 Recruiter Job Portal. Its candidate flow exposes a useful state transition: the job details screen listens for the application result while a dedicated BLoC handles the submission event. Live listings and submissions depend on the configured backend."], "tags": ["Flutter", "Dart", "BLoC", "Dio"], "links": [{"label": "Repository", "url": "https://github.com/Dishank25/rishabh6363-jobflutter-448f346c9d38"}, {"label": "Skills onboarding", "url": "https://github.com/Dishank25/rishabh6363-jobflutter-448f346c9d38/blob/Jobportalmain/lib/views/detailed_signup_student/presentation/views/signup_your_skills_view.dart"}, {"label": "Job application BLoC", "url": "https://github.com/Dishank25/rishabh6363-jobflutter-448f346c9d38/blob/Jobportalmain/lib/views/job_related/presentation/bloc/job_apply_bloc/job_apply_bloc.dart"}], "related": {"id": "job-portal", "title": "Student \u0026 Recruiter Job Portal"}}, {"id": "terminal-tic-tac-toe", "title": "Terminal Tic-Tac-Toe", "category": "Python \u00b7 Game logic", "intro": "A standard-library Python game that lets a human play tic-tac-toe against a computer in the terminal.", "paragraphs": ["Squares are numbered from one to nine. The human plays X and chooses an available square. The computer plays O by choosing randomly from the spaces still open.", "The game checks rows, columns, and diagonals to detect a win and recognizes a draw when the board fills. The board, opponent logic, and turn loop are small enough to follow in one Python file."], "tags": ["Python", "Standard library", "Command-line interface"], "links": [{"label": "Repository", "url": "https://github.com/Dishank25/python_project"}, {"label": "Read the game loop", "url": "https://github.com/Dishank25/python_project/blob/main/TIC%20TAC%20TOE%20GAME/main.py"}]}], "skills": [{"title": "Retrieval and evaluation", "body": "I use embeddings, semantic search, and ChromaDB to find relevant source material. Labeled queries and expected FAQ identifiers make retrieval behavior testable."}, {"title": "Python applications", "body": "I use Django to render this portfolio and FastAPI to build REST services. I validate structured data with Pydantic and build interfaces with Streamlit. Git and structured logging help me trace changes and inspect requests."}, {"title": "Machine learning and data", "body": "I use pandas and NumPy to prepare data, scikit-learn for machine learning, and cosine similarity and ranking for collaborative filtering."}, {"title": "Interface development", "body": "I\u2019ve built Flutter applications in Dart, using Provider for state management and REST integrations for authentication."}], "education": [{"title": "B.Tech in Computer Science and Engineering", "institution": "United College of Engineering and Research, Greater Noida", "date": "2020 \u2013 2024"}, {"title": "Generative AI with NLP, Agentic AI and Fine Tuning", "institution": "Euron", "date": "Apr 2025"}], "contact": {"body": "If you\u2019re building an AI product around search, structured documents, or recommendations, I\u2019d enjoy hearing what a good answer needs to look like for your users.", "links": [{"label": "LinkedIn", "url": "https://www.linkedin.com/in/dishankjain25/"}, {"label": "GitHub", "url": "https://github.com/Dishank25"}]}}</script>
-<script defer src="static/portfolio/concierge-engine.js"></script>
-<script defer src="static/portfolio/chat-ui.js"></script>
+<script id="guide-data" type="application/json">{{ before_education }}"education": {{ education }}, "contact": {{ after_education }}</script>
+<script defer src="static/portfolio/concierge-engine.js?v=abby-4"></script>
+<script defer src="static/portfolio/chat-ui.js?v=abby-4"></script>
 
 </body>
 </html>
